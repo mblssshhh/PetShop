@@ -20,22 +20,7 @@ namespace PetShopWeb.Controllers
 
         public IActionResult Index()
         {
-            var products = _context.Products.ToList();
-            return View(products);
-        }
-         
-        public IActionResult Privacy()
-        {
             return View();
-        }
-
-        public IActionResult Account()
-        {
-            var model = new CreateBuyerModel()
-            {
-                Buyer = new Buyer()
-            };
-            return View(model);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
