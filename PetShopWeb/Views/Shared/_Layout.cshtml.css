@@ -1,48 +1,112 @@
 ﻿/* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
-a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+* {
+    margin: 0;
+    padding: 0;
 }
 
-a {
-  color: #0077cc;
+p1 {
+    font-family: "Montserrat", sans-serif;
+    font: 1rem;
+    color: #ffffff;
+    font-size: calc(25px + 4vw);
+    
 }
 
-.btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+.header {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
 }
 
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+.menu {
+    margin-left: 2vw;
+    margin-right: 30px;
+    display: flex;
+    list-style: none;
 }
 
-.border-top {
-  border-top: 1px solid #e5e5e5;
-}
-.border-bottom {
-  border-bottom: 1px solid #e5e5e5;
-}
+    .menu li {
+        margin-left: 2vw;
+        font-size: calc(15px + 1vw)
+    }
 
-.box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
-}
+        .menu li a {
+            font-family: "Montserrat";
+            color: #FFFFFF;
+            text-decoration: none;
+            font-size: calc(10px + 1.5vw);
+        }
 
-button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
-}
+            .menu li a:hover {
+                color: #ABABAB;
+            }
+
+    .menu .icon .images {
+        margin-left: calc(5px + 0.5vw);
+        width: calc(14px + 1.4vw);
+    }
+
+    .menu .icon img:hover {
+        filter: blur(4px);
+    }
+
+
 
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px;
+    background-color: #373737;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.footer_wrap {
+    padding: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.footer li {
+    margin-top: 1vw;
+    margin-left: 2vw;
+    list-style-type: none;
+}
+
+    .footer li p {
+        font-family: "Montserrat", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 20;
+        font-style: medium;
+        color: #b4b4b4;
+        font-size: calc(2px + 1vw);
+    }
+
+.footer_wrap nav {
+    margin-right: 30px;
+}
+
+.footer .icon {
+    margin-left: 2vw;
+}
+
+.footer_wrap .images {
+    width: 4vw;
+    height: 4vw;
+}
+
+    .footer_wrap .images:hover {
+        background-color: #504e4e;
+    }
+
+.footer_wrap nav p {
+    margin-left: 6vw;
+    margin-top: 1vw;
+    color: #b4b4b4;
+}
+
+body {
+    background: url(image/fon.png) no-repeat center fixed;
+    background-size: 100%;
 }
