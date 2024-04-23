@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace PetShopWeb.Views.Home
 {
-    public class Index1Model : PageModel
+    public class CatalogModel : PageModel
     {
         public void OnGet()
         {
