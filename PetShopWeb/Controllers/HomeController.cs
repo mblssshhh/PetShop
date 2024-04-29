@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using PetShopWeb.Models;
 using System.Diagnostics;
-using Domain;
-using Domain.Entities;
 
 namespace PetShopWeb.Controllers
 {
@@ -10,12 +8,10 @@ namespace PetShopWeb.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        private readonly DomainContext _context;
 
-        public HomeController(ILogger<HomeController> logger, DomainContext context)
+        public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-            _context = context;
         }
 
         public IActionResult Index()
