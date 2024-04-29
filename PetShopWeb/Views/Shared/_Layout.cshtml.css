@@ -18,6 +18,7 @@ p1 {
     align-items: center;
     display: flex;
     justify-content: space-between;
+    background-color: #00B0BB;
 }
 
 .menu {
@@ -26,10 +27,14 @@ p1 {
     display: flex;
     list-style: none;
 }
+ul.menu{
+    text-decoration:none;
+}
 
     .menu li {
         margin-left: 2vw;
-        font-size: calc(15px + 1vw)
+        font-size: calc(15px + 1vw);
+       
     }
 
         .menu li a {
