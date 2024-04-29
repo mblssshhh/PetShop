@@ -1,5 +1,5 @@
-using Domain;
 using Microsoft.EntityFrameworkCore;
+using PetShopWeb.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<DomainContext>(opt => opt.UseSqlServer(connectionString));
+builder.Services.AddDbContext<ShopDbContext>(opt => opt.UseSqlServer(connectionString));
 
 var app = builder.Build();
 
