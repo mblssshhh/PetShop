@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Security.Claims;
 using System.Text;
 using PetShopWeb.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace PetShopWeb.Controllers
 {
@@ -62,6 +63,8 @@ namespace PetShopWeb.Controllers
                 _context.Buyers.Add(user);
                 await _context.SaveChangesAsync();
 
+                await Authenticate(user);
+
                 return RedirectToAction("Index", "Home");
             }
             return View("Registretion", model);
@@ -82,7 +85,40 @@ namespace PetShopWeb.Controllers
             return View();
         }
 
+        [HttpPost]
+        public async Task<IActionResult> LoginVerify(string email, string password)
+        {
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+            {
+                ViewBag.ErrorMessage = "Введите email и пароль.";
+                return View("Login");
+            }
 
+            var user = await _context.Buyers.FirstOrDefaultAsync(u => u.Email.ToLower() == email.ToLower());
+            if (user == null && !VerifyPassword(user.Password, password))
+            {
+                ViewBag.ErrorMessage = "Пользователь с такими данными не существует.";
+                return View("Login");
+            }
+            await Authenticate(user);
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        private bool VerifyPassword(string hashedPassword, string password)
+        {
+            return hashedPassword == HashPassword(password);
+        }
+        private async Task Authenticate(Buyer user)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Id.ToString()),
+            };
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var principal = new ClaimsPrincipal(identity);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

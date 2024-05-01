@@ -18,20 +18,24 @@
             <img src="image/free-icon-user-profile-2734847 1 (1).png" class="images"></img>
         </aside>
         <ul class=register>
-
-            <div class="input-box">
-                <input type="email" placeholder="Email">
-            </div>
-            <div class="input-box">
-                <input type="password" placeholder="Пароль">
-            </div>
-            <div class="buttons">
-                <button><a href="Account.html">Войти</a></button>
-            </div>
-            <div class="href">
-                <a asp-controller="Home" asp-action="Registretion">Нет аккаунта?</a>
-            </div>
+            <form method="post" asp-controller="Home" asp-action="LoginVerify">
+                <div class="input-box">
+                    <input type="email" name="Email" placeholder="Email">
+                </div>
+                <div class="input-box">
+                    <input type="password" name="Password" placeholder="Пароль">
+                </div>
+                <div class="buttons">
+                    <button type="submit">Войти</button>
+                </div>
+            </form>
         </ul>
     </section>
+    @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+    {
+        <script>
+            alert('@Html.Raw(ViewBag.ErrorMessage)');
+        </script>
+    }
 </body>
 </html>

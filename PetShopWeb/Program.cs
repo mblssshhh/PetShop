@@ -1,9 +1,14 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using PetShopWeb.Data;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie(options =>
+            {
+                options.LoginPath = "/Home/login";
+            });
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -29,6 +34,8 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}"
+    
+    );
 
 app.Run();
