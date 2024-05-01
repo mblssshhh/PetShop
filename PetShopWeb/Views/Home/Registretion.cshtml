@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@model RegisterViewModel
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -12,39 +13,44 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,900;1,900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <section class="Table">
-
-        <aside class="Photo">
-            <img src="image/free-icon-user-profile-2734847 1 (1).png" class="images"></img>
-        </aside>
-        <ul class=register>
-            <div class="input-box">
-                <input type="name" placeholder="Имя">
-            </div>
-            <div class="input-box">
-                <input type="second_name" placeholder="Фамилия">
-            </div>
-            <div class="input-box">
-                <input type="last_name" placeholder="Отчество">
-            </div>
-            <div class="input-box">
-                <input type="number" placeholder="Телефон">
-            </div>
-            <div class="input-box">
-                <input type="email" placeholder="Email">
-            </div>
-            <div class="input-box">
-                <input type="password" placeholder="Пароль">
-            </div>
-            <div class="buttons">
-                <button onclick="validate()"><p>Зарегистрироваться</p></button>
-            </div>
-            <div class="href">
-                <a asp-controller="Home" asp-action="Login">Уже есть аккаунт?</a>
-            </div>
-        </ul>
-
-
-    </section>
+    <form method="post" asp-controller="Home" asp-action="Register">
+        <section class="Table">
+            <aside class="Photo">
+                <img src="image/free-icon-user-profile-2734847 1 (1).png" class="images" />
+            </aside>
+            <ul class="register">
+                <div class="input-box">
+                    <input type="text" name="Name" placeholder="Имя" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="input-box">
+                    <input type="text" name="Surname" placeholder="Фамилия" />
+                    <span asp-validation-for="Surname" class="text-danger"></span>
+                </div>
+                <div class="input-box">
+                    <input type="text" name="Patronymic" placeholder="Отчество" />
+                    <span asp-validation-for="Patronymic" class="text-danger"></span>
+                </div>
+                <div class="input-box">
+                    <input type="text" name="Phone" placeholder="+7" />
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+                <div class="input-box">
+                    <input type="text" name="Email" placeholder="Email" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="input-box">
+                    <input type="password" name="Password" placeholder="Пароль" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="buttons">
+                    <button type="submit"><p>Зарегистрироваться</p></button>
+                </div>
+                <div class="href">
+                    <a asp-controller="Home" asp-action="Login">Уже есть аккаунт?</a>
+                </div>
+            </ul>
+        </section>
+    </form>
 </body>
 </html>
