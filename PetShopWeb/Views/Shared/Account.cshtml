@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@model UserProfileViewModel
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -13,27 +14,37 @@
     <section class="main">
         <div class="container">
             <div class="column">
-                <div>
-                    <input placeholder="Имя">
-                </div>
-                <div>
-                    <input placeholder="Фамилия">
-                </div>
-                <div>
-                    <input placeholder="Отчество">
-                </div>
-                <div>
-                    <input placeholder="Телефон">
-                </div>
-                <div>
-                    <input placeholder="Email">
-                </div>
+                <form asp-action="UpdateProfile" asp-controller="Account" method="post">
+                    <div>
+                        <input type="text" name="Name" placeholder="Имя" value="@Model.Name">
+                        <span class="text-danger">@Html.ValidationMessageFor(model => model.Name)</span>
+                    </div>
+                    <div>
+                        <input type="text" name="Surname" placeholder="Фамилия" value="@Model.Surname">
+                        <span class="text-danger">@Html.ValidationMessageFor(model => model.Surname)</span>
+                    </div>
+                    <div>
+                        <input type="text" name="Patronymic" placeholder="Отчество" value="@Model.Patronymic">
+                        <span class="text-danger">@Html.ValidationMessageFor(model => model.Patronymic)</span>
+                    </div>
+                    <div>
+                        <input type="text" name="Phone" placeholder="Телефон" value="@Model.Phone">
+                        <span class="text-danger">@Html.ValidationMessageFor(model => model.Phone)</span>
+                    </div>
+                    <div>
+                        <input type="email" name="Email" placeholder="Email" value="@Model.Email" readonly>
+                    </div>
+                    <div class="buttons">
+                        <button type="submit">Сохранить изменения</button>
+                    </div>
+                </form>
                 <div class="buttons">
                     <form asp-controller="Account" asp-action="Logout" method="post">
                         <button type="submit">Выйти из аккаунта</button>
                     </form>
                 </div>
             </div>
+        </div>
             <div class="column2">
                 <div class="bonus-card">
                     <div class="line">

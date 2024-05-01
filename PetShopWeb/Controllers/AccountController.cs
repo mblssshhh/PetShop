@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PetShopWeb.Data;
+using PetShopWeb.Models;
 
 namespace PetShopWeb.Controllers
 {
@@ -14,9 +17,20 @@ namespace PetShopWeb.Controllers
             _logger = logger;
             _context = context;
         }
-        public IActionResult Account()
+        public async Task<IActionResult> Account()
         {
-            return View();
+            var user = await _context.Buyers.FirstOrDefaultAsync(u => u.Id == Convert.ToInt32(User.Identity.Name));
+
+            var model = new UserProfileViewModel
+            {
+                Name = user.Name,
+                Surname = user.Surname,
+                Patronymic = user.Patronymic,
+                Phone = user.Phone,
+                Email = user.Email
+            };
+
+            return View(model);
         }
 
         public async Task<IActionResult> LogoutAsync()
@@ -24,6 +38,27 @@ namespace PetShopWeb.Controllers
             await HttpContext.SignOutAsync();
 
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateProfile(UserProfileViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _context.Buyers.FirstOrDefaultAsync(u => u.Id == Convert.ToInt32(User.Identity.Name));
+
+                    user.Name = model.Name;
+                    user.Surname = model.Surname;
+                    user.Patronymic = model.Patronymic;
+                    user.Phone = model.Phone;
+                    user.Email = model.Email;
+
+                    _context.Buyers.Update(user);
+                    await _context.SaveChangesAsync();
+
+                    return RedirectToAction("Account", "Account");
+            }
+            return View("Account", model);
         }
     }
 }
