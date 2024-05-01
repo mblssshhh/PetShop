@@ -1,17 +1,25 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using PetShopWeb.Data.Entity;
 using PetShopWeb.Models;
 using System.Diagnostics;
+using System.Security.Claims;
+using System.Text;
+using PetShopWeb.Data;
 
 namespace PetShopWeb.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ShopDbContext _context;
 
-
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ShopDbContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         public IActionResult Index()
@@ -27,6 +35,41 @@ namespace PetShopWeb.Controllers
         public IActionResult Registretion()
         {
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (_context.Buyers.Any(u => u.Email == model.Email))
+                {
+                    ModelState.AddModelError("Email", "ѕользователь с таким email уже зарегистрирован.");
+                    return View("Registretion", model);
+                }
+
+                var user = new Buyer
+                {
+                    Name = model.Name,
+                    Surname = model.Surname,
+                    Patronymic = model.Patronymic,
+                    Phone = model.Phone,
+                    Email = model.Email,
+                };
+
+                user.Password = HashPassword(model.Password);
+
+                _context.Buyers.Add(user);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("Index", "Home");
+            }
+            return View("Registretion", model);
+        }
+
+        private string HashPassword(string password)
+        {
+            return Convert.ToBase64String(Encoding.UTF8.GetBytes(password));
         }
 
         public IActionResult Contacts()
