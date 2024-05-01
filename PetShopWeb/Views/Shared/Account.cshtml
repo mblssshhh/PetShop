@@ -29,7 +29,9 @@
                     <input placeholder="Email">
                 </div>
                 <div class="buttons">
-                    <button> <a>Выйти из аккаунта</a></button>
+                    <form asp-controller="Account" asp-action="Logout" method="post">
+                        <button type="submit">Выйти из аккаунта</button>
+                    </form>
                 </div>
             </div>
             <div class="column2">
