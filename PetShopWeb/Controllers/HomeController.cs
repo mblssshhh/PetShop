@@ -95,11 +95,18 @@ namespace PetShopWeb.Controllers
             }
 
             var user = await _context.Buyers.FirstOrDefaultAsync(u => u.Email.ToLower() == email.ToLower());
-            if (user == null && !VerifyPassword(user.Password, password))
+            if (user == null)
             {
                 ViewBag.ErrorMessage = "Пользователь с такими данными не существует.";
                 return View("Login");
             }
+
+            if (!VerifyPassword(user.Password, password))
+            {
+                ViewBag.ErrorMessage = "Неверный пароль.";
+                return View("Login");
+            }
+
             await Authenticate(user);
 
             return RedirectToAction("Index", "Home");
