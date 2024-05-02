@@ -1,0 +1,134 @@
+﻿/*body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 0 20px;
+}
+*/
+*{
+
+    box-sizing: border-box;
+    
+}
+
+.wrapper{
+    min-width: 1000px;
+    margin-top:3vw;
+    margin-left:1vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.wrapper .card {
+    width: calc(50% - 13px);
+    height: 340px;
+    border-radius: 3px;
+    background-color: #fff;
+    overflow: hidden;
+}
+
+.wrapper .card img{
+    width: 100% ;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
+
+.wrapper .cart-nav{
+    position: absolute;
+    top: -35%;
+    right:0;
+    display:flex;
+    justify-content: space-evenly;
+    width: 180px;
+    background: #000000;
+    padding: 13px 15px;
+    border-radius: 3px;
+    box-shadow: 3px 3px 8px 0px rgba(0,0,0,0.15);
+    cursor: pointer;
+}
+
+
+
+.wrapper .card:hover img {
+    transform: scale(1.1);
+}
+    .wrapper .card .content {
+        position: absolute;
+        width: 100%;
+        bottom: -50%;
+        padding: 10px 20px 22px 20px;
+        background-color: #fff;
+        box-shadow: 0px -3px 10px 0px rgba(0,0,0,0.15);
+        transition: all 0.3s ease;
+    }
+    .wrapper .card:hover .content {
+        bottom: 0;
+    }
+
+   .card .content .row,
+   .content .btn-Ct   {
+       display:flex;
+       justify-content: space-between;
+   }
+
+   .content .row .details span{
+       display: block;
+       margin-bottom: 10px;
+       font-size:22px;
+       font-weight:600;
+   }
+
+   .content .row .details p{
+       color: #333;
+       font-size:14px;
+       font-weight: 400;
+   }
+   .content .row .price{
+       color: #ff6a00;
+       font-size: 20px;
+       font-weight: 600;
+   }
+.content .btn-Ct {
+    margin-top: 20px;
+}
+
+.content .btn-Ct button {
+    width:100%;
+    padding: 10px 0;
+    border: 2px solid #ff6a00;
+    border-radius: 3px;
+    font-size:17px;
+    font-weight: 500;
+    cursor: pointer;
+    outline: none;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+.btn-Ct button:first-child{
+    margin-right: 10px;
+    color: #ff6a00;
+    background: #fff;
+}
+button:first-child:hover{
+    color: #fff;
+    background: #ff6a00;
+}
+
+.btn-Ct button:last-child {
+    margin-right: 10px;
+    color: #fff;
+    background: #ff6a00;
+}
+
+button:last-child:hover{
+    background: #ff6a00;
+    border-color: #ff6a00;
+}
+.vanish {
+    height: 400px;
+}

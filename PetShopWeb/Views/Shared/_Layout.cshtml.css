@@ -28,21 +28,25 @@ p1 {
     list-style: none;
 }
 ul.menu{
-    text-decoration:none;
+    text-decoration: none;
 }
 
-    .menu li {
-        margin-left: 2vw;
-        font-size: calc(15px + 1vw);
-       
-    }
+.menu li {
+    margin-left: 2vw;
+    font-size: calc(15px + 1vw);
 
-        .menu li a {
-            font-family: "Montserrat";
-            color: #FFFFFF;
-            text-decoration: none;
-            font-size: calc(10px + 1.5vw);
-        }
+    font-family: "Montserrat";
+    color: #FFFFFF;
+    font-size: calc(10px + 1.5vw);
+}
+
+.menu-link {
+    font-family: "Montserrat" !important;
+    color: #FFFFFF !important;
+    font-size: calc(10px + 1.5vw) !important;
+    text-decoration: none !important;
+}
+
 
             .menu li a:hover {
                 color: #ABABAB;
