@@ -24,6 +24,11 @@ namespace PetShopWeb.Controllers
             _context = context;
         }
 
+        public IActionResult Basket()
+        {
+            return View();
+        }
+
         public IActionResult Index()
         {
             return View();

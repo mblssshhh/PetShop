@@ -23,8 +23,15 @@
                 <li><a id="anchor" asp-controller="Home" asp-action="Index">Главная</a></li>
                 <li><a class="menu-link" asp-controller="Home"asp-action="Catalog">Каталог</a></li>
                 <li><a asp-controller="Home" asp-action="Contacts">Контакты</a></li>
-                <a asp-controller="Home" class="icon"> <img src="~/css/Img/free-icon-shopping-bag-4903482 1.png" class="images"></img></a>
                 @{
+                    if (User.Identity.IsAuthenticated)
+                    {
+                        <a asp-controller="Home" asp-action="Basket" class="icon"> <img src="~/css/Img/free-icon-shopping-bag-4903482 1.png" class="images"></img></a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Home" asp-action="Registretion" class="icon"> <img src="~/css/Img/free-icon-shopping-bag-4903482 1.png" class="images"></img></a>
+                    }
                     if (User.Identity.IsAuthenticated)
                     {
                         <a asp-controller="Account" asp-action="Account" class="icon"><img src="~/css/Img/free-icon-user-profile-2734847 1.png" class="images"></img></a>
