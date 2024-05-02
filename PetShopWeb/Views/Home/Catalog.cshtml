@@ -12,61 +12,28 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,900;1,900&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/3d0e27e432.js"></script>
-@*     <style>
-        .container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: flex-start; /* Начинайте новый ряд слева */
-            gap: 20px; /* Отступ между карточками товаров */
-        }
-
-        .card-wrapper {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px; /* Отступ между карточками товаров */
-        }
-
-            .card img {
-                width: 100%;
-            }
-
-        .content {
-            padding: 10px;
-            background-color: #f9f9f9;
-            border-radius: 5px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .details {
-            margin-bottom: 10px;
-        }
-
-        .price {
-            font-weight: bold;
-        }
-    </style> *@
 </head>
 <body>
    
         <div class="scroll">
-            <ul class="imenu">
-                <li class="full-border">
-                    <a href="#">Категории</a>
+        <ul class="imenu">
+            <li class="full-border">
+                <a href="#">Категории</a>
                 <ul>
-                    <li><a href="#">Игрушки</a></li>
-                    <li><a href="#">Корма</a></li>
-                    <li><a href="#">Миски, поилки</a></li>
-                    <li><a href="#">Ветеринарная аптека</a></li>
+                    @foreach (var category in ViewBag.Categories)
+                    {
+                        <li><a href="?categoryId=@category.Id">@category.Name</a></li>
+                    }
                 </ul>
-                </li>
-            </ul>
-   
-           
-            <h2>Каталог</h2>
+            </li>
+        </ul>
+
+        <form method="get" action="@Url.Action("Search", "Home")">
             <div class="search">
-                <input type="text" placeholder="Название товара">
-                <button>Поиск</button>
+                <input type="text" name="query" placeholder="Название товара">
+                <button type="submit">Поиск</button>
             </div>
+        </form>
            <div class="wrapper">
 
                <div class="cart-nav">
@@ -81,6 +48,12 @@
                </div>
             </div>
             <div class="wrapper">
+            @if (Model.Count == 0)
+            {
+                <div style="text-align: center; color: gray;">
+                    <h3>Товаров в этой категории нет</h3>
+                </div>
+            }
              <div class="rows">
                 @foreach (var product in Model)
                 {
@@ -125,7 +98,6 @@
             
             </div>
         <div class="wrapper">
-
             <div class="cart-nav">
                 <div class="icon">
                     <i class="fas fa-shopping-cart"></i>

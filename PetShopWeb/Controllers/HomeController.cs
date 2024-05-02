@@ -29,9 +29,17 @@ namespace PetShopWeb.Controllers
             return View();
         }
 
-        public IActionResult Catalog()
+        public IActionResult Search(string query)
         {
-            var products = _context.Products.ToList();
+            var products = _context.Products
+                .Where(p => p.Name.Contains(query))
+                .ToList();
+
+            var categories = _context.Categories.ToList();
+            categories.Insert(0, new Category { Id = 0, Name = "Все" });
+
+            ViewBag.Categories = categories;
+
             List<ProductModel> productModels = products.Select(p => new ProductModel
             {
                 Name = p.Name,
@@ -40,10 +48,43 @@ namespace PetShopWeb.Controllers
                 Weight = p.Weight,
                 Manufacturer = p.Manufacturer,
                 Description = p.Description,
-                ImagePath = p.ImagePath
+                ImagePath = p.ImagePath,
+                CategoryId = p.CategoryId
             }).ToList();
+
+            return View("Catalog", productModels);
+        }
+
+        public IActionResult Catalog(int? categoryId)
+        {
+            var products = _context.Products.ToList();
+            var categories = _context.Categories.ToList();
+
+            categories.Insert(0, new Category { Id = 0, Name = "Все" });
+
+            ViewBag.Categories = categories;
+            ViewBag.CategoryId = categoryId; 
+
+            List<ProductModel> productModels = products.Select(p => new ProductModel
+            {
+                Name = p.Name,
+                Count = p.Count,
+                Price = p.Price,
+                Weight = p.Weight,
+                Manufacturer = p.Manufacturer,
+                Description = p.Description,
+                ImagePath = p.ImagePath,
+                CategoryId = p.CategoryId 
+            }).ToList();
+
+            if (categoryId.HasValue && categoryId != 0)
+            {
+                productModels = productModels.Where(p => p.CategoryId == categoryId).ToList();
+            }
+
             return View(productModels);
         }
+
 
         public IActionResult Registretion()
         {
