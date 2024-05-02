@@ -29,6 +29,32 @@ namespace PetShopWeb.Controllers
             return View();
         }
 
+        public async Task<IActionResult> AddToBasketAsync(int productId, int count)
+        {
+            var user = await _context.Buyers.FirstOrDefaultAsync(u => u.Id == Convert.ToInt32(User.Identity.Name));
+            var existingItem = _context.Buskets.FirstOrDefault(b => b.BuyerId == user.Id && b.ProductId == productId);
+
+            if (existingItem != null)
+            {
+                existingItem.Count += count;
+            }
+            else
+            {
+                var basketItem = new Busket
+                {
+                    BuyerId = user.Id,
+                    ProductId = productId,
+                    Count = count
+                };
+                _context.Buskets.Add(basketItem);
+            }
+
+            _context.SaveChanges();
+
+            TempData["Message"] = "Товар успешно добавлен в корзину!";
+            return RedirectToAction("Catalog");
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -47,6 +73,7 @@ namespace PetShopWeb.Controllers
 
             List<ProductModel> productModels = products.Select(p => new ProductModel
             {
+                Id = p.Id,
                 Name = p.Name,
                 Count = p.Count,
                 Price = p.Price,
@@ -72,6 +99,7 @@ namespace PetShopWeb.Controllers
 
             List<ProductModel> productModels = products.Select(p => new ProductModel
             {
+                Id= p.Id,
                 Name = p.Name,
                 Count = p.Count,
                 Price = p.Price,

@@ -7,7 +7,7 @@ namespace PetShopWeb.Data
     public class ShopDbContext : DbContext
     {
         public DbSet<Product> Products { get; set; }
-        public DbSet<Basket> Baskets { get; set; }
+        public DbSet<Busket> Buskets { get; set; }
         public DbSet<Buyer> Buyers { get; set; }
         public DbSet<ClubCard> ClubCards { get; set; }
         public DbSet<Order> Orders { get; set; }
@@ -50,12 +50,12 @@ namespace PetShopWeb.Data
                 .HasForeignKey(pc => pc.CategoryId);
 
             modelBuilder.Entity<Product>()
-                .HasMany(p => p.Baskets)
+                .HasMany(p => p.Buskets)
                 .WithOne(b => b.Product)
                 .HasForeignKey(b => b.ProductId);
 
             modelBuilder.Entity<Buyer>()
-                .HasMany(b => b.Baskets)
+                .HasMany(b => b.Buskets)
                 .WithOne(b => b.Buyer)
                 .HasForeignKey(b => b.BuyerId);
 
@@ -64,9 +64,9 @@ namespace PetShopWeb.Data
                 .WithOne(cc => cc.Buyer)
                 .HasForeignKey(cc => cc.BuyerId);
 
-            modelBuilder.Entity<Basket>()
+            modelBuilder.Entity<Busket>()
                 .HasMany(b => b.Orders)
-                .WithOne(o => o.Basket)
+                .WithOne(o => o.Busket)
                 .HasForeignKey(o => o.BasketId);
 
             modelBuilder.Entity<Staff>()

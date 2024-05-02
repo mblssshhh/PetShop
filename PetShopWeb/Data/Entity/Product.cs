@@ -13,7 +13,7 @@
         public string ImagePath { get; set; }
         public Category Category { get; set; }
         public ICollection<ProductCategory> ProductCategories { get; set; }
-        public ICollection<Basket> Baskets { get; set; }
+        public ICollection<Busket> Buskets { get; set; }
     }
 
 }

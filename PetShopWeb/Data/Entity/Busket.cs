@@ -1,6 +1,6 @@
 ﻿namespace PetShopWeb.Data.Entity
 {
-    public class Basket
+    public class Busket
     {
         public int Id { get; set; }
         public int BuyerId { get; set; }
