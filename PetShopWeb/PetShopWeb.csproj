@@ -23,4 +23,11 @@
     <Folder Include="Migrations\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\css\Img\Rectangle 36.png" />
+    <None Include="wwwroot\css\Img\Rectangle 37.png" />
+    <None Include="wwwroot\css\Img\Rectangle 38.png" />
+    <None Include="wwwroot\css\Img\Rectangle 39.png" />
+  </ItemGroup>
+
 </Project>
