@@ -27,11 +27,13 @@
                 </ul>
             </li>
         </ul>
-   
+
+        <form method="get" action="@Url.Action("Search", "Home")">
             <div class="search">
-                <input type="text" placeholder="Название товара">
-                <button>Поиск</button>
+                <input type="text" name="query" placeholder="Название товара">
+                <button type="submit">Поиск</button>
             </div>
+        </form>
            <div class="wrapper">
 
                <div class="cart-nav">
