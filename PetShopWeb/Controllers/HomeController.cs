@@ -9,6 +9,7 @@ using System.Security.Claims;
 using System.Text;
 using PetShopWeb.Data;
 using Microsoft.AspNetCore.Identity;
+using System.Security.Cryptography;
 
 namespace PetShopWeb.Controllers
 {
@@ -72,7 +73,11 @@ namespace PetShopWeb.Controllers
 
         private string HashPassword(string password)
         {
-            return Convert.ToBase64String(Encoding.UTF8.GetBytes(password));
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                byte[] hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+                return Convert.ToBase64String(hashedBytes);
+            }
         }
 
         public IActionResult Contacts()
@@ -112,10 +117,14 @@ namespace PetShopWeb.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        private bool VerifyPassword(string hashedPassword, string password)
+        private bool VerifyPassword(string hashedPasswordFromDatabase, string inputPassword)
         {
-            return hashedPassword == HashPassword(password);
+            string trimmedHashedPassword = hashedPasswordFromDatabase.Trim();
+            string trimmedInputPassword = inputPassword.Trim();
+
+            return string.Equals(trimmedHashedPassword, HashPassword(trimmedInputPassword), StringComparison.Ordinal);
         }
+
         private async Task Authenticate(Buyer user)
         {
             var claims = new List<Claim>
