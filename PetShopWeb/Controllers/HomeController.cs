@@ -31,7 +31,18 @@ namespace PetShopWeb.Controllers
 
         public IActionResult Catalog()
         {
-            return View();
+            var products = _context.Products.ToList();
+            List<ProductModel> productModels = products.Select(p => new ProductModel
+            {
+                Name = p.Name,
+                Count = p.Count,
+                Price = p.Price,
+                Weight = p.Weight,
+                Manufacturer = p.Manufacturer,
+                Description = p.Description,
+                ImagePath = p.ImagePath
+            }).ToList();
+            return View(productModels);
         }
 
         public IActionResult Registretion()
