@@ -12,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,900;1,900&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/3d0e27e432.js"></script>
-    <style>
+@*     <style>
         .container {
             display: flex;
             flex-wrap: wrap;
@@ -44,7 +44,7 @@
         .price {
             font-weight: bold;
         }
-    </style>
+    </style> *@
 </head>
 <body>
    
@@ -79,29 +79,50 @@
                    <div class="item-count">0</div>
 
                </div>
-
-            <div class="container">
-                <div class="card-wrapper">
-                    @foreach (var product in Model)
-                    {
-                        <div class="card">
-                            <img src="@Url.Content(product.ImagePath)" alt="@product.Name" />
-                            <div class="content">
-                                <div class="row">
-                                    <div class="details">
-                                        <span>@product.Name</span>
-                                        <p>@product.Description</p>
-                                    </div>
-                                    <div class="price">@product.Price.ToString("C")</div>
+            </div>
+            <div class="wrapper">
+             <div class="rows">
+                @foreach (var product in Model)
+                {
+                    <div class="card">
+                        <img src="@Url.Content(product.ImagePath)" alt="@product.Name" />
+                        <div class="content">
+                            <div class="row">
+                                <div class="details">
+                                    <span>@product.Name</span>
+                                    <p>@product.Description</p>
                                 </div>
-                                <div class="btn-Ct">
-                                    <button>Купить в 1 клик</button>
-                                    <button>В корзину</button>
-                                </div>
+                                <div class="price">@product.Price.ToString("C")</div>
+                            </div>
+                            <div class="btn-Ct">
+                                <button>Купить в 1 клик</button>
+                                <button>В корзину</button>
                             </div>
                         </div>
-                    }
-                </div>
+                    </div>
+                }
+                @foreach (var product in Model)
+                {
+                    <div class="card">
+                        <img src="@Url.Content(product.ImagePath)" alt="@product.Name" />
+                        <div class="content">
+                            <div class="row">
+                                <div class="details">
+                                    <span>@product.Name</span>
+                                    <p>@product.Description</p>
+                                </div>
+                                <div class="price">@product.Price.ToString("C")</div>
+                            </div>
+                            <div class="btn-Ct">
+                                <button>Купить в 1 клик</button>
+                                <button>В корзину</button>
+                            </div>
+                        </div>
+                    </div>
+                }
+             </div>
+            
+            
             </div>
         <div class="wrapper">
 
