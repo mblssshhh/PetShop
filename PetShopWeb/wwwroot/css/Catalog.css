@@ -12,29 +12,54 @@
     
 }
 
-.wrapper{
+.wrapper {
     min-width: 1000px;
-    margin-top:3vw;
-    margin-left:1vw;
+    margin-top: 3vw;
+    margin-left: 1vw;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    flex-wrap: wrap;
 }
 
-.wrapper .card {
-    width: calc(50% - 13px);
+.card {
+    width: calc(25% - 20px);
     height: 340px;
     border-radius: 3px;
     background-color: #fff;
     overflow: hidden;
+    gap: 20px;
 }
 
-.wrapper .card img{
-    width: 100% ;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 3px;
-    transition: all 0.3s ease;
+    .card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 3px;
+        transition: all 0.3s ease;
+    }
+
+.rows {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 20px;
+}
+
+@media screen and (max-width: 1200px) {
+    .card {
+        width: calc(33.33% - 20px); 
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .card {
+        width: calc(50% - 20px); 
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .card {
+        width: 100%; 
+    }
 }
 
 .wrapper .cart-nav{
