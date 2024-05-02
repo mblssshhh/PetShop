@@ -342,3 +342,70 @@ body {
     width: calc(410px + 12vw);
     height: calc(310px + 15vw);
 }
+/* корзина корзина */
+.had h2 {
+    color: #0a848dc7;
+    font-size: 3vw;
+    text-align: center;
+}
+
+.tovar {
+    margin-left: 12vw;
+    margin-right: 12vw;
+}
+
+    .tovar table {
+        margin-left: 10vw;
+    }
+
+    .tovar td {
+        justify-content: space-between;
+    }
+
+    .tovar button {
+        font-size: 15px;
+        background-color: rgba(255, 0, 0, 0.74);
+        width: 30px;
+        border-radius: 2px;
+    }
+
+    .tovar input {
+        width: 30px;
+    }
+
+    .tovar span {
+        font-family: "Montserrat", sans-serif;
+        font-size: 20px;
+        font-weight: bold;
+        color: #000000b0;
+    }
+
+.icon-b {
+    width: calc(30% -33px);
+    height: 50px;
+}
+
+.btn-oplata {
+    margin-left: 12vw;
+    margin-right: 12vw;
+    text-align: right;
+}
+
+    .btn-oplata button {
+        margin-left: 10px;
+        width: 15%;
+        height: 50px;
+        border-radius: 30px;
+        background-color: #00B0BB;
+    }
+
+        .btn-oplata button:hover {
+            background-color: #f8a202;
+        }
+
+    .btn-oplata span {
+        font-family: "Montserrat", sans-serif;
+        font-size: 2vw;
+        font-weight: bold;
+        color: #000000b0;
+    }
