@@ -44,11 +44,13 @@ namespace PetShopWeb.Controllers
 
             if (user.Money >= totalCost)
             {
+                user.Money -= totalCost;
                 var order = new Order
                 {
                     BusketId = user.Buskets.FirstOrDefault().Id,
                     Price = totalCost,
                     Date = DateTime.Now,
+                    Amount = user.Buskets.Sum(b => b.Count)
                 };
 
                 _context.Orders.Add(order);
@@ -58,6 +60,23 @@ namespace PetShopWeb.Controllers
                 {
                     basket.Status = "Оплачено";
                 }
+                await _context.SaveChangesAsync();
+
+                int sum = user.Buskets.Sum(b => b.Count);
+                foreach (var basket in user.Buskets)
+                {
+                    var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == basket.ProductId);
+                    if (product != null)
+                    {
+                        product.Count -= sum;
+                    }
+                    else
+                    {
+                        TempData["ErrorBusket"] = "Товар закончился";
+                        return RedirectToAction("Basket", "Home");
+                    }
+                }
+
                 await _context.SaveChangesAsync();
 
                 TempData["Busket"] = "Заказ успешно создан";
@@ -113,7 +132,7 @@ namespace PetShopWeb.Controllers
         public async Task<IActionResult> AddToBasketAsync(int productId, int count)
         {
             var user = await _context.Buyers.FirstOrDefaultAsync(u => u.Id == Convert.ToInt32(User.Identity.Name));
-            var existingItem = _context.Buskets.FirstOrDefault(b => b.BuyerId == user.Id && b.ProductId == productId);
+            var existingItem = _context.Buskets.FirstOrDefault(b => b.BuyerId == user.Id && b.ProductId == productId && b.Status == "Не оплачено");
 
             if (existingItem != null)
             {
@@ -179,7 +198,7 @@ namespace PetShopWeb.Controllers
             ViewBag.Categories = categories;
             ViewBag.CategoryId = categoryId; 
 
-            List<ProductModel> productModels = products.Select(p => new ProductModel
+            List<ProductModel> productModels = products.Where(p => p.Count > 0).Select(p => new ProductModel
             {
                 Id= p.Id,
                 Name = p.Name,
