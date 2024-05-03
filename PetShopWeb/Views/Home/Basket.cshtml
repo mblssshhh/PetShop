@@ -22,11 +22,11 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td><img class="icon-b" src="@item.Product.ImagePath"></td>
+                            <td><img class="icon-b" src="@Url.Content(item.Product.ImagePath)" alt="@item.Product.Name"></td>
                             <td><span>@item.Product.Name</span></td>
-                            <td><span>@item.Product.Price</span></td>
-                            <td><input type="number" value="@item.Product.Count" /></td>
-                            <td><span>@(item.Product.Price * item.Product.Count)</span></td>
+                            <td><span>@item.Product.Price.ToString("C")</span></td>
+                            <td><input type="number" value="@item.Count" /></td>
+                            <td><span>@(item.Product.Price * item.Count)</span></td>
                             <td><button>X</button></td>
                         </tr>
                     }
@@ -40,7 +40,7 @@
         }
 
         <div class="btn-oplata">
-            <span>Общая сумма: @Model.Sum(item => item.Product.Price * item.Product.Count) руб.</span>
+            <span>Общая сумма: @Model.Sum(item => item.Product.Price * item.Count) руб.</span>
             <button>Оплатить</button>
         </div>
     </div>
