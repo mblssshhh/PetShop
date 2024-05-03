@@ -354,13 +354,6 @@ body {
     margin-right: 12vw;
 }
 
-    .tovar table {
-        margin-left: 10vw;
-    }
-
-    .tovar td {
-        justify-content: space-between;
-    }
 
     .tovar button {
         font-size: 15px;
@@ -368,6 +361,10 @@ body {
         width: 30px;
         border-radius: 2px;
     }
+
+        .tovar button:hover {
+            background-color: rgba(255, 0, 0, 0.856);
+        }
 
     .tovar input {
         width: 30px;
@@ -378,6 +375,19 @@ body {
         font-size: 20px;
         font-weight: bold;
         color: #000000b0;
+    }
+
+    .tovar table {
+        padding-left: 10vw;
+        padding-right: 10vw;
+        table-layout: fixed;
+        width: 100%;
+    }
+
+    .tovar td {
+        width: 20%;
+        padding: 10px;
+        box-sizing: border-box;
     }
 
 .icon-b {
