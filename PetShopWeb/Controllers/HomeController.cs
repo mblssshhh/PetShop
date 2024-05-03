@@ -24,11 +24,31 @@ namespace PetShopWeb.Controllers
             _context = context;
         }
 
-        public IActionResult Basket()
+        public async Task<IActionResult> BasketAsync()
         {
-            return View();
-        }
+            var user = await _context.Buyers.FirstOrDefaultAsync(u => u.Id == Convert.ToInt32(User.Identity.Name));
+            var userBasket = await _context.Buyers
+                .Include(b => b.Buskets)
+                .ThenInclude(b => b.Product)
+                .FirstOrDefaultAsync(u => u.Id == user.Id);
 
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var basketModels = userBasket.Buskets.Select(b => new BusketModel
+            {
+                Id = b.Id,
+                BuyerId = b.Id,
+                ProductId = b.Id,
+                Count = b.Count,
+                Product = b.Product,
+                
+            }).ToList();
+
+            return View(basketModels);
+        }
         public async Task<IActionResult> AddToBasketAsync(int productId, int count)
         {
             var user = await _context.Buyers.FirstOrDefaultAsync(u => u.Id == Convert.ToInt32(User.Identity.Name));
