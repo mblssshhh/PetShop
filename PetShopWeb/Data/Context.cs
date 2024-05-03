@@ -71,12 +71,12 @@ namespace PetShopWeb.Data
             modelBuilder.Entity<Busket>()
                 .HasMany(b => b.Orders)
                 .WithOne(o => o.Busket)
-                .HasForeignKey(o => o.BasketId);
+                .HasForeignKey(o => o.BusketId);
 
             modelBuilder.Entity<Staff>()
                 .HasMany(s => s.Orders)
                 .WithOne(o => o.Staff)
-                .HasForeignKey(o => o.StaffId);
+                .HasForeignKey(o => o.IdStaff);
         }
     }
 }

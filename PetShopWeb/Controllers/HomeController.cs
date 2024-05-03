@@ -27,23 +27,26 @@ namespace PetShopWeb.Controllers
         [HttpPost]
         public async Task<IActionResult> CheckoutAsync(decimal totalCost)
         {
-            var user = await _context.Buyers.FirstOrDefaultAsync(u => u.Id == Convert.ToInt32(User.Identity.Name));
+            var userId = Convert.ToInt32(User.Identity.Name);
+            var user = await _context.Buyers
+                                        .Include(u => u.Buskets)
+                                        .FirstOrDefaultAsync(u => u.Id == userId);
 
             if (user == null)
             {
                 return NotFound();
             }
+
+            if (user.Buskets == null || user.Buskets.Count == 0)
+            {
+                return RedirectToAction("Basket", "Home");
+            }
+
             if (user.Money >= totalCost)
             {
-                user.Money -= totalCost;
-                var userBasket = await _context.Buyers
-                .Include(b => b.Buskets)
-                .ThenInclude(b => b.Product)
-                .FirstOrDefaultAsync(u => u.Id == user.Id);
-                Order order = new Order
+                var order = new Order
                 {
-                    StaffId = 1,
-                    BasketId = /*userBasket.Id*/ 1,
+                    BusketId = user.Buskets.FirstOrDefault().Id, 
                     Price = totalCost,
                     Date = DateTime.Now,
                 };
@@ -54,13 +57,15 @@ namespace PetShopWeb.Controllers
                 _context.Buskets.RemoveRange(user.Buskets);
                 await _context.SaveChangesAsync();
 
-                TempData["Message"] = "Заказ успешно создан";
+                user.Money -= totalCost;
+                await _context.SaveChangesAsync();
 
-                return RedirectToAction("Index", "Home");
+                TempData["Busket"] = "Заказ успешно создан";
+                return RedirectToAction("Basket", "Home");
             }
             else
             {
-                TempData["ErrorMessage"] = "Недостаточно средств для оплаты заказа";
+                TempData["ErrorBusket"] = "Недостаточно средств для оплаты заказа";
                 return RedirectToAction("Basket", "Home");
             }
         }

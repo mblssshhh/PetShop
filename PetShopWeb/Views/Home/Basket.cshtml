@@ -22,6 +22,19 @@
 <body>
     <div class="had">
         <h2 class="had">Корзина</h2>
+        @if (TempData.ContainsKey("Busket"))
+        {
+            <div id="flash-message" class="alert alert-success" role="alert">
+                @TempData["Busket"]
+            </div>
+        }
+
+        @if (TempData.ContainsKey("ErrorBusket"))
+        {
+            <div id="flash-message" class="alert alert-danger" role="alert">
+                @TempData["ErrorBusket"]
+            </div>
+        }
         @if (Model != null && Model.Count > 0)
         {
             <div class="tovars">
@@ -32,8 +45,8 @@
                             <td><img class="icon-b" src="@Url.Content(item.Product.ImagePath)" alt="@item.Product.Name"></td>
                             <td><span>@item.Product.Name</span></td>
                             <td><span>@item.Product.Price.ToString("C")</span></td>
-                            <td><input type="number" name="buskets[@item.Id].Count" value="@item.Count" min="1" max="@item.Product.Count" onkeydown="return event.keyCode == 38 || event.keyCode == 40" /></td>
-                            <td><span>@(item.Product.Price * item.Count)</span></td>
+                            <td><input type="number" name="buskets[@item.Id].Count" value="@item.Count" min="1" max="@item.Product.Count" data-item-id="@item.Id" oninput="updateTotal(this)" /></td>
+                            <td><span id="subtotal-@item.Id">@item.Product.Price руб.</span></td>
                             <td><a class="plain-link" href="@Url.Action("DeleteFromBasket", "Home", new { itemId = item.Id })"><button>X</button></a></td>
                         </tr>
                     }
@@ -43,16 +56,41 @@
         }
         else
         {
-            <p>Корзина пуста.</p>
+            <p style="align-content: center">Корзина пуста.</p>
         }
         <div class="btn-oplata">
             <form method="post" asp-action="Checkout" asp-controller="Home">
-                <input type="hidden" name="totalCost" value="@Model.Sum(item => item.Product.Price * item.Count)" />
-                <span>Общая сумма: @Model.Sum(item => item.Product.Price * item.Count) руб.</span>
+                <input type="hidden" id="totalCost" name="totalCost" value="@Model.Sum(item => item.Product.Price * item.Count)" />
+                <span id="totalAmount">Общая сумма: @Model.Sum(item => item.Product.Price * item.Count) руб.</span>
                 <button type="submit">Оформить заказ</button>
             </form>
         </div>
-    </div>
+
+        <script>
+            function updateTotal(input) {
+                var itemId = input.dataset.itemId;
+                var price = parseFloat(input.parentNode.previousElementSibling.innerText.replace(/[^0-9.-]+/g, ""));
+                var count = parseInt(input.value);
+                var subtotal = price * count;
+                subtotal = parseFloat(subtotal.toFixed(2));
+                subtotal = subtotal.toString();
+                subtotal = subtotal.slice(0, -2);
+                document.getElementById("subtotal-" + itemId).innerText = subtotal + " руб.";
+
+                var totalCost = 0;
+                var itemSubtotals = document.querySelectorAll("[id^='subtotal-']");
+                itemSubtotals.forEach(function (element) {
+                    totalCost += parseFloat(element.innerText.replace(/[^0-9.-]+/g, ""));
+                });
+
+                totalCost = parseFloat(totalCost.toFixed(2)); 
+                totalCost = totalCost.toString(); 
+
+                document.getElementById("totalCost").value = totalCost;
+                document.getElementById("totalAmount").innerText = "Общая сумма: " + totalCost + " руб.";
+            }
+        </script>
+
     </div>
 </body>
 </html>
