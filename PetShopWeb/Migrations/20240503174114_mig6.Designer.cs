@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PetShopWeb.Data;
 
@@ -11,9 +12,11 @@ using PetShopWeb.Data;
 namespace PetShopWeb.Migrations
 {
     [DbContext(typeof(ShopDbContext))]
-    partial class ShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240503174114_mig6")]
+    partial class mig6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,7 +48,7 @@ namespace PetShopWeb.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Buskets", (string)null);
+                    b.ToTable("Buskets");
                 });
 
             modelBuilder.Entity("PetShopWeb.Data.Entity.Buyer", b =>
@@ -85,7 +88,7 @@ namespace PetShopWeb.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Buyers", (string)null);
+                    b.ToTable("Buyers");
                 });
 
             modelBuilder.Entity("PetShopWeb.Data.Entity.Category", b =>
@@ -102,7 +105,7 @@ namespace PetShopWeb.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("PetShopWeb.Data.Entity.ClubCard", b =>
@@ -123,7 +126,7 @@ namespace PetShopWeb.Migrations
 
                     b.HasIndex("BuyerId");
 
-                    b.ToTable("ClubCards", (string)null);
+                    b.ToTable("ClubCards");
                 });
 
             modelBuilder.Entity("PetShopWeb.Data.Entity.Order", b =>
@@ -155,7 +158,7 @@ namespace PetShopWeb.Migrations
 
                     b.HasIndex("StaffId");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("PetShopWeb.Data.Entity.Product", b =>
@@ -198,7 +201,7 @@ namespace PetShopWeb.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("PetShopWeb.Data.Entity.ProductCategory", b =>
@@ -221,7 +224,7 @@ namespace PetShopWeb.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductCategories", (string)null);
+                    b.ToTable("ProductCategories");
                 });
 
             modelBuilder.Entity("PetShopWeb.Data.Entity.Staff", b =>
@@ -258,7 +261,7 @@ namespace PetShopWeb.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Staffs", (string)null);
+                    b.ToTable("Staffs");
                 });
 
             modelBuilder.Entity("PetShopWeb.Data.Entity.Busket", b =>

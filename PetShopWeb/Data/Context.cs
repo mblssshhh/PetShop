@@ -60,6 +60,10 @@ namespace PetShopWeb.Data
                 .HasForeignKey(b => b.BuyerId);
 
             modelBuilder.Entity<Buyer>()
+            .Property(b => b.Money)
+            .HasColumnType("decimal(18,4)");
+
+            modelBuilder.Entity<Buyer>()
                 .HasMany(b => b.ClubCards)
                 .WithOne(cc => cc.Buyer)
                 .HasForeignKey(cc => cc.BuyerId);
@@ -67,12 +71,12 @@ namespace PetShopWeb.Data
             modelBuilder.Entity<Busket>()
                 .HasMany(b => b.Orders)
                 .WithOne(o => o.Busket)
-                .HasForeignKey(o => o.BasketId);
+                .HasForeignKey(o => o.BusketId);
 
             modelBuilder.Entity<Staff>()
                 .HasMany(s => s.Orders)
                 .WithOne(o => o.Staff)
-                .HasForeignKey(o => o.StaffId);
+                .HasForeignKey(o => o.IdStaff);
         }
     }
 }

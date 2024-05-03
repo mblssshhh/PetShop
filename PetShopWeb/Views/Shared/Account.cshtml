@@ -47,16 +47,11 @@
         </div>
             <div class="column2">
                 <div class="bonus-card">
-                    <div class="line">
-                    </div>
-                    <div class="btwn">
-                        <div class="ball">
-                            <h2>250 Баллов</h2>
-
-                            <div><p>Действует до 31.04</p></div>
-                        </div>
-                        <img src="image/Rectangle 39 (1).png" class="images"></img>
-                    </div>
+                <form method="post" asp-action="AddMoney">
+                    <input type="number" name="moneyToAdd" placeholder="Введите сумму">
+                    <button type="submit">Добавить</button>
+                </form>
+                <div>Текущая сумма: @Model.Money</div>
                 </div>
             </div>
 

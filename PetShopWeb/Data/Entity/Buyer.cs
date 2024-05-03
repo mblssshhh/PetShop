@@ -9,6 +9,7 @@
         public string Password { get; set; }
         public string Patronymic { get; set; }
         public string Email { get; set; }
+        public decimal Money { get; set; }
         public ICollection<Busket> Buskets { get; set; }
         public ICollection<ClubCard> ClubCards { get; set; }
     }

@@ -24,6 +24,66 @@ namespace PetShopWeb.Controllers
             _context = context;
         }
 
+        [HttpPost]
+        public async Task<IActionResult> CheckoutAsync(decimal totalCost)
+        {
+            var userId = Convert.ToInt32(User.Identity.Name);
+            var user = await _context.Buyers
+                                        .Include(u => u.Buskets)
+                                        .FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            if (user.Buskets == null || user.Buskets.Count == 0)
+            {
+                return RedirectToAction("Basket", "Home");
+            }
+
+            if (user.Money >= totalCost)
+            {
+                var order = new Order
+                {
+                    BusketId = user.Buskets.FirstOrDefault().Id, 
+                    Price = totalCost,
+                    Date = DateTime.Now,
+                };
+
+                _context.Orders.Add(order);
+                await _context.SaveChangesAsync();
+
+                _context.Buskets.RemoveRange(user.Buskets);
+                await _context.SaveChangesAsync();
+
+                user.Money -= totalCost;
+                await _context.SaveChangesAsync();
+
+                TempData["Busket"] = "Заказ успешно создан";
+                return RedirectToAction("Basket", "Home");
+            }
+            else
+            {
+                TempData["ErrorBusket"] = "Недостаточно средств для оплаты заказа";
+                return RedirectToAction("Basket", "Home");
+            }
+        }
+
+        public IActionResult DeleteFromBasket(int itemId)
+        {
+            var itemToDelete = _context.Buskets.FirstOrDefault(i => i.Id == itemId);
+
+            if (itemToDelete == null)
+            {
+                return NotFound(); 
+            }
+
+            _context.Buskets.Remove(itemToDelete);
+            _context.SaveChanges();
+
+            return RedirectToAction("Basket");
+        }
         public async Task<IActionResult> BasketAsync()
         {
             var user = await _context.Buyers.FirstOrDefaultAsync(u => u.Id == Convert.ToInt32(User.Identity.Name));
