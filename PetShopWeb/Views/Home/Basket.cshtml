@@ -48,6 +48,11 @@
                             <td><input type="number" name="buskets[@item.Id].Count" value="@item.Count" min="1" max="@item.Product.Count" data-item-id="@item.Id" oninput="updateTotal(this)" /></td>
                             <td><span id="subtotal-@item.Id">@item.Product.Price руб.</span></td>
                             <td><a class="plain-link" href="@Url.Action("DeleteFromBasket", "Home", new { itemId = item.Id })"><button>X</button></a></td>
+=======
+                            <td><input type="number" placheholder="1" value="@item.Count" /></td>
+                            <td><span>@(item.Product.Price * item.Count)</span></td>
+                            <td><button>X</button></td>
+
                         </tr>
                     }
                 </table>

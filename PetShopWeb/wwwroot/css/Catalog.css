@@ -157,3 +157,69 @@ button:last-child:hover{
 .vanish {
     height: 400px;
 }
+/*tovar tovar */
+.head {
+    margin-top: 10px;
+    margin-left: 1vw;
+    font-size: 1.5vw;
+    color: #838383;
+}
+
+.tovar {
+    display: flex;
+    justify-content: space-between;
+}
+
+    .tovar img {
+        margin-top: 1vw;
+        margin-left: 10vw;
+        width: 26vw;
+        height: 26vw;
+    }
+
+.tovar_text .name-T {
+    font-family: "Montserrat", sans-serif;
+    color: #01848D;
+    font-size: 3vw;
+    text-align: center;
+    margin-top: 3vw;
+}
+
+.tovar_text {
+    width: 600px;
+    margin-right: 7vw;
+}
+
+    .tovar_text .description {
+        font-family: "Montserrat", sans-serif;
+        font-size: 1.5vw;
+        margin-top: 1vw;
+        color: #01848D;
+        text-align: center;
+    }
+
+.price {
+    font-weight: bold;
+    color: #00B0BB;
+    font-size: 30px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.button {
+    width: 20vw;
+    height: 2vw;
+    margin-top: 10px;
+    margin-left: 9vw;
+    border-radius: 30px;
+    background-color: #00B0BB;
+    border: #00B0BB;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+    .button:hover {
+        background-color: #f8a202;
+        border: #009099;
+    }
