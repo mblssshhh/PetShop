@@ -25,7 +25,7 @@
                             <td><img class="icon-b" src="@Url.Content(item.Product.ImagePath)" alt="@item.Product.Name"></td>
                             <td><span>@item.Product.Name</span></td>
                             <td><span>@item.Product.Price.ToString("C")</span></td>
-                            <td><input type="number" value="@item.Count" /></td>
+                            <td><input type="number" placheholder="1" value="@item.Count" /></td>
                             <td><span>@(item.Product.Price * item.Count)</span></td>
                             <td><button>X</button></td>
                         </tr>
