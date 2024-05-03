@@ -1,0 +1,58 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+}
+.photo {
+    width: 40vw;
+    height:15vw;
+}
+
+    .photo img {
+        margin-left: -20px;
+        width: 40vw;
+        height: 30vw;
+    }
+
+.container {
+    height:35vw;
+    display:flex;
+    justify-content: space-between;
+}
+
+    .container .contact_bar {
+        width: 80%;
+        height: 100%;
+        margin-left: 7vw;
+        background-color: #D9D9D9;
+        border-radius: 30px;
+        overflow: hidden;
+    }
+
+.contact_bar h2 {
+    font-family: "Monserrat", sans-serif;
+    text-align: center;
+    font-size: 3vw;
+    color: #00B0BB;
+}
+
+.contact_bar li {
+    list-style-type: none;
+    font-size: 2vw;
+    font-weight: bold;
+    line-height: 130%;
+    margin-left: 1%;
+    color: #939393;
+}
+
+.contact_bar p {
+    font-size: 15px;
+    font-weight: bold;
+    color: #939393;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.container .contact {
+    width: 40vw;
+    height: 23vw;
+}
