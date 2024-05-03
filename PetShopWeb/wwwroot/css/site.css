@@ -350,16 +350,20 @@ body {
 }
 
 .tovar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
     margin-left: 12vw;
     margin-right: 12vw;
 }
 
     .tovar table {
-        margin-left: 10vw;
+        width: 100%;
     }
 
     .tovar td {
-        justify-content: space-between;
+        width: calc(20% - 10px); /* Распределяем ячейки на 20% ширины с отступами */
+        margin-right: 10px;
     }
 
     .tovar button {
@@ -381,7 +385,7 @@ body {
     }
 
 .icon-b {
-    width: calc(30% -33px);
+    width: calc(30% - 33px);
     height: 50px;
 }
 
