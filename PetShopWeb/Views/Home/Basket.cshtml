@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@model List<BusketModel>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -12,25 +13,36 @@
 </head>
 
 <body>
-<div class="had">
-    <h2 class="had">Корзина</h2>
-    <div class="tovar">
-        <table>
-            <tr>
-                <td><img class="icon-b" src="image/dog.png"></td>
-                <td><span>Корм для кошек</span></td>
-                <td><span>350,00р</span></td>
-                <td><input /></td>
-                <td><span>500p</span></td>
-                <td><button>X</button></td>
-            </tr>
-        </table>
-        <hr>
+    <div class="had">
+        <h2 class="had">Корзина</h2>
+        @if (Model != null && Model.Count > 0)
+        {
+            <div class="tovar">
+                <table>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td><img class="icon-b" src="@item.Product.ImagePath"></td>
+                            <td><span>@item.Product.Name</span></td>
+                            <td><span>@item.Product.Price</span></td>
+                            <td><input type="number" value="@item.Product.Count" /></td>
+                            <td><span>@(item.Product.Price * item.Product.Count)</span></td>
+                            <td><button>X</button></td>
+                        </tr>
+                    }
+                </table>
+                <hr>
+            </div>
+        }
+        else
+        {
+            <p>Корзина пуста.</p>
+        }
+
+        <div class="btn-oplata">
+            <span>Общая сумма: @Model.Sum(item => item.Product.Price * item.Product.Count) руб.</span>
+            <button>Оплатить</button>
+        </div>
     </div>
-    <div class="btn-oplata">
-        <span>1999.00р</span>
-        <button>Оплатить</button>
-    </div>
-</div>
 </body>
 </html>

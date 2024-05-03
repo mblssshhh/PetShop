@@ -27,7 +27,12 @@
                 </ul>
             </li>
         </ul>
-
+        @if (TempData.ContainsKey("Message"))
+        {
+            <div id="flash-message" class="alert alert-success" role="alert">
+                @TempData["Message"]
+            </div>
+        }
         <form method="get" action="@Url.Action("Search", "Home")">
             <div class="search">
                 <input type="text" name="query" placeholder="Название товара">
@@ -69,7 +74,11 @@
                             </div>
                             <div class="btn-Ct">
                                 <button>Купить в 1 клик</button>
-                                <button>В корзину</button>
+                                <form method="post" asp-action="AddToBasket" asp-controller="Home">
+                                    <input type="hidden" name="productId" value="@product.Id" />
+                                    <input type="hidden" name="count" value="1"/>
+                                    <button type="submit">В корзину</button>
+                                </form>
                             </div>
                         </div>
                     </div>

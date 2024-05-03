@@ -8,7 +8,7 @@
         public int Amount { get; set; }
         public DateTime Date { get; set; }
         public int StaffId { get; set; }
-        public Basket Basket { get; set; }
+        public Busket Busket { get; set; }
         public Staff Staff { get; set; }
     }
 
