@@ -8,8 +8,9 @@ using System.Diagnostics;
 using System.Security.Claims;
 using System.Text;
 using PetShopWeb.Data;
-using Microsoft.AspNetCore.Identity;
 using System.Security.Cryptography;
+using System.Net.Mail;
+using System.Text;
 
 namespace PetShopWeb.Controllers
 {
@@ -24,7 +25,6 @@ namespace PetShopWeb.Controllers
             _context = context;
         }
 
-        [HttpPost]
         public async Task<IActionResult> CheckoutAsync(decimal totalCost)
         {
             var userId = Convert.ToInt32(User.Identity.Name);
@@ -46,7 +46,7 @@ namespace PetShopWeb.Controllers
             {
                 var order = new Order
                 {
-                    BusketId = user.Buskets.FirstOrDefault().Id, 
+                    BusketId = user.Buskets.FirstOrDefault().Id,
                     Price = totalCost,
                     Date = DateTime.Now,
                 };
@@ -54,10 +54,10 @@ namespace PetShopWeb.Controllers
                 _context.Orders.Add(order);
                 await _context.SaveChangesAsync();
 
-                _context.Buskets.RemoveRange(user.Buskets);
-                await _context.SaveChangesAsync();
-
-                user.Money -= totalCost;
+                foreach (var basket in user.Buskets)
+                {
+                    basket.Status = "Оплачено";
+                }
                 await _context.SaveChangesAsync();
 
                 TempData["Busket"] = "Заказ успешно создан";
@@ -69,6 +69,7 @@ namespace PetShopWeb.Controllers
                 return RedirectToAction("Basket", "Home");
             }
         }
+
 
         public IActionResult DeleteFromBasket(int itemId)
         {
@@ -97,7 +98,7 @@ namespace PetShopWeb.Controllers
                 return NotFound();
             }
 
-            var basketModels = userBasket.Buskets.Select(b => new BusketModel
+            var basketModels = userBasket.Buskets.Where(b => b.Status != "Оплачено").Select(b => new BusketModel
             {
                 Id = b.Id,
                 BuyerId = b.Id,
@@ -124,7 +125,8 @@ namespace PetShopWeb.Controllers
                 {
                     BuyerId = user.Id,
                     ProductId = productId,
-                    Count = count
+                    Count = count,
+                    Status = "Не оплачено"
                 };
                 _context.Buskets.Add(basketItem);
             }
