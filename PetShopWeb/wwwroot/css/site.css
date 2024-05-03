@@ -86,11 +86,13 @@ body {
         .input-box input::placeholder {
             color: grey;
         }
+.tovars input ::placeholder{
+    color: grey;
+}
 
 
 .buttons {
-    text-align:center;
-    
+    text-align: center;
 }
 
 
@@ -368,6 +370,7 @@ body {
 
     .tovars input {
         width: 30px;
+        padding: 0px 45px 0px 15px;
     }
 
     .tovars span {
