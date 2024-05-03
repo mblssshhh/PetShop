@@ -20,5 +20,6 @@ namespace PetShopWeb.Models
         [Required(ErrorMessage = "Поле 'Email' обязательно для заполнения")]
         [EmailAddress(ErrorMessage = "Некорректный формат Email")]
         public string Email { get; set; }
+        public decimal Money { get; set; }
     }
 }

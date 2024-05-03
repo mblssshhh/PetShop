@@ -27,7 +27,8 @@ namespace PetShopWeb.Controllers
                 Surname = user.Surname,
                 Patronymic = user.Patronymic,
                 Phone = user.Phone,
-                Email = user.Email
+                Email = user.Email,
+                Money = user.Money
             };
 
             return View(model);
@@ -59,6 +60,22 @@ namespace PetShopWeb.Controllers
                     return RedirectToAction("Account", "Account");
             }
             return View("Account", model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddMoney(decimal moneyToAdd)
+        {
+            var buyerId = await _context.Buyers.FirstOrDefaultAsync(u => u.Id == Convert.ToInt32(User.Identity.Name));
+            var buyer = await _context.Buyers.FindAsync(buyerId.Id);
+
+            if (buyer == null)
+            {
+                return NotFound();
+            }
+
+            buyer.Money += moneyToAdd;
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Account", "Account");
         }
     }
 }

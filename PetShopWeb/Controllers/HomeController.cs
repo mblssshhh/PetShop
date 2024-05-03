@@ -24,6 +24,61 @@ namespace PetShopWeb.Controllers
             _context = context;
         }
 
+        [HttpPost]
+        public async Task<IActionResult> CheckoutAsync(decimal totalCost)
+        {
+            var user = await _context.Buyers.FirstOrDefaultAsync(u => u.Id == Convert.ToInt32(User.Identity.Name));
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+            if (user.Money >= totalCost)
+            {
+                user.Money -= totalCost;
+                var userBasket = await _context.Buyers
+                .Include(b => b.Buskets)
+                .ThenInclude(b => b.Product)
+                .FirstOrDefaultAsync(u => u.Id == user.Id);
+                Order order = new Order
+                {
+                    StaffId = 1,
+                    BasketId = /*userBasket.Id*/ 1,
+                    Price = totalCost,
+                    Date = DateTime.Now,
+                };
+
+                _context.Orders.Add(order);
+                await _context.SaveChangesAsync();
+
+                _context.Buskets.RemoveRange(user.Buskets);
+                await _context.SaveChangesAsync();
+
+                TempData["Message"] = "Заказ успешно создан";
+
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Недостаточно средств для оплаты заказа";
+                return RedirectToAction("Basket", "Home");
+            }
+        }
+
+        public IActionResult DeleteFromBasket(int itemId)
+        {
+            var itemToDelete = _context.Buskets.FirstOrDefault(i => i.Id == itemId);
+
+            if (itemToDelete == null)
+            {
+                return NotFound(); 
+            }
+
+            _context.Buskets.Remove(itemToDelete);
+            _context.SaveChanges();
+
+            return RedirectToAction("Basket");
+        }
         public async Task<IActionResult> BasketAsync()
         {
             var user = await _context.Buyers.FirstOrDefaultAsync(u => u.Id == Convert.ToInt32(User.Identity.Name));

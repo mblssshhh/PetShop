@@ -10,6 +10,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,900;1,900&display=swap" rel="stylesheet">
+    <style>
+        .plain-link {
+            color: inherit; 
+            text-decoration: none; 
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <body>
@@ -25,9 +32,9 @@
                             <td><img class="icon-b" src="@Url.Content(item.Product.ImagePath)" alt="@item.Product.Name"></td>
                             <td><span>@item.Product.Name</span></td>
                             <td><span>@item.Product.Price.ToString("C")</span></td>
-                            <td><input type="number" value="@item.Count" /></td>
+                            <td><input type="number" name="buskets[@item.Id].Count" value="@item.Count" min="1" max="@item.Product.Count" onkeydown="return event.keyCode == 38 || event.keyCode == 40" /></td>
                             <td><span>@(item.Product.Price * item.Count)</span></td>
-                            <td><button>X</button></td>
+                            <td><a class="plain-link" href="@Url.Action("DeleteFromBasket", "Home", new { itemId = item.Id })"><button>X</button></a></td>
                         </tr>
                     }
                 </table>
@@ -38,11 +45,14 @@
         {
             <p>Корзина пуста.</p>
         }
-
         <div class="btn-oplata">
-            <span>Общая сумма: @Model.Sum(item => item.Product.Price * item.Count) руб.</span>
-            <button>Оплатить</button>
+            <form method="post" asp-action="Checkout" asp-controller="Home">
+                <input type="hidden" name="totalCost" value="@Model.Sum(item => item.Product.Price * item.Count)" />
+                <span>Общая сумма: @Model.Sum(item => item.Product.Price * item.Count) руб.</span>
+                <button type="submit">Оформить заказ</button>
+            </form>
         </div>
+    </div>
     </div>
 </body>
 </html>
