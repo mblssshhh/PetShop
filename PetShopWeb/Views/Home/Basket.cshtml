@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" context="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> ANI MALL</title>
-    <link rel="stylesheet" href="~/css//site.css">
+    <link rel="stylesheet" href="~/css/site.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,900;1,900&display=swap" rel="stylesheet">
@@ -15,6 +15,10 @@
             color: inherit; 
             text-decoration: none; 
             cursor: pointer;
+        }
+
+        .vanish {
+            height: 200px;
         }
     </style>
 </head>
@@ -45,14 +49,9 @@
                             <td><img class="icon-b" src="@Url.Content(item.Product.ImagePath)" alt="@item.Product.Name"></td>
                             <td><span>@item.Product.Name</span></td>
                             <td><span>@item.Product.Price.ToString("C")</span></td>
-                            <td><input type="number" name="buskets[@item.Id].Count" value="@item.Count" min="1" max="@item.Product.Count" data-item-id="@item.Id" oninput="updateTotal(this)" /></td>
+                            <td><input placeholder="1" type="number" name="buskets[@item.Id].Count" value="@item.Count" min="1" max="@item.Product.Count" data-item-id="@item.Id" oninput="updateTotal(this)" /></td>
                             <td><span id="subtotal-@item.Id">@item.Product.Price руб.</span></td>
                             <td><a class="plain-link" href="@Url.Action("DeleteFromBasket", "Home", new { itemId = item.Id })"><button>X</button></a></td>
-=======
-                            <td><input type="number" placheholder="1" value="@item.Count" /></td>
-                            <td><span>@(item.Product.Price * item.Count)</span></td>
-                            <td><button>X</button></td>
-
                         </tr>
                     }
                 </table>
@@ -95,7 +94,7 @@
                 document.getElementById("totalAmount").innerText = "Общая сумма: " + totalCost + " руб.";
             }
         </script>
-
     </div>
+    <div class="vanish"></div>
 </body>
 </html>
