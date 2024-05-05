@@ -9,8 +9,6 @@ using System.Security.Claims;
 using System.Text;
 using PetShopWeb.Data;
 using System.Security.Cryptography;
-using System.Net.Mail;
-using System.Text;
 
 namespace PetShopWeb.Controllers
 {
@@ -25,7 +23,34 @@ namespace PetShopWeb.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> CheckoutAsync(decimal totalCost)
+        public string GenerateOrderNumber()
+        {
+            string orderNumber = "#";
+            Random random = new Random();
+            bool isUnique = false;
+
+            while (!isUnique)
+            {
+                for (int i = 0; i < 6; i++)
+                {
+                    orderNumber += random.Next(10).ToString();
+                }
+
+                if (!_context.Orders.Any(o => o.Number == orderNumber))
+                {
+                    isUnique = true;
+                }
+                else
+                {
+                    orderNumber = "#";
+                }
+            }
+
+            return orderNumber;
+        }
+
+
+        public async Task<IActionResult> CheckoutAsync(decimal totalCost, List<BusketModel> buskets)
         {
             var userId = Convert.ToInt32(User.Identity.Name);
             var user = await _context.Buyers
@@ -50,7 +75,8 @@ namespace PetShopWeb.Controllers
                     BusketId = user.Buskets.FirstOrDefault().Id,
                     Price = totalCost,
                     Date = DateTime.Now,
-                    Amount = user.Buskets.Sum(b => b.Count)
+                    Amount = buskets.Count,
+                    Number = GenerateOrderNumber()
                 };
 
                 _context.Orders.Add(order);
@@ -62,13 +88,12 @@ namespace PetShopWeb.Controllers
                 }
                 await _context.SaveChangesAsync();
 
-                int sum = user.Buskets.Sum(b => b.Count);
                 foreach (var basket in user.Buskets)
                 {
                     var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == basket.ProductId);
                     if (product != null)
                     {
-                        product.Count -= sum;
+                        product.Count -= buskets.Count;
                     }
                     else
                     {
@@ -243,6 +268,7 @@ namespace PetShopWeb.Controllers
                     Patronymic = model.Patronymic,
                     Phone = model.Phone,
                     Email = model.Email,
+                    Money = 0,
                 };
 
                 user.Password = HashPassword(model.Password);

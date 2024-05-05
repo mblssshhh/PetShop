@@ -6,12 +6,13 @@
     <meta http-equiv="X-UA-Compatible" context="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> ANI MALL</title>
+    <link rel="stylesheet" href="acs.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,900;1,900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <section class="main">
+
         <div class="container">
             <div class="column">
                 <form asp-action="UpdateProfile" asp-controller="Account" method="post">
@@ -44,18 +45,42 @@
                     </form>
                 </div>
             </div>
+
+        <div class="inf-order">
+            <h2>Ваши заказы</h2>
+            <div class="order-table">
+                <div class="table-container">
+                    <table>
+                        <tr>
+                            <th>Номер заказа</th>
+                            <th>Стоимость</th>
+                            <th>Количество товаров</th>
+                            <th>Дата заказа</th>
+                        </tr>
+                        @foreach (var order in ViewBag.Orders)
+                        {
+                            <tr>
+                                <td>@order.Number</td>
+                                <td>@order.Price</td>
+                                <td>@order.Amount</td>
+                                <td>@order.Date</td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
         </div>
-            <div class="column2">
-                <div class="bonus-card">
+        <div class="column2">
+            <div class="bonus-card">
                 <form method="post" asp-action="AddMoney">
                     <input type="number" name="moneyToAdd" placeholder="Введите сумму">
                     <button type="submit">Добавить</button>
                 </form>
                 <div>Текущая сумма: @Model.Money</div>
-                </div>
             </div>
-
         </div>
-    </section>
+
+
+    </div>
 </body>
 </html>

@@ -4,6 +4,7 @@
     {
         public int Id { get; set; }
         public int BusketId { get; set; }
+        public string Number { get; set; }
         public decimal Price { get; set; }
         public int Amount { get; set; }
         public DateTime Date { get; set; }
