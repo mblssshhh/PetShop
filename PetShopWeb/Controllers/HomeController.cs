@@ -50,7 +50,7 @@ namespace PetShopWeb.Controllers
         }
 
 
-        public async Task<IActionResult> CheckoutAsync(decimal totalCost, int itemCount)
+        public async Task<IActionResult> CheckoutAsync(decimal totalCost, int[] itemCount)
         {
             var userId = Convert.ToInt32(User.Identity.Name);
             var user = await _context.Buyers
@@ -67,15 +67,35 @@ namespace PetShopWeb.Controllers
                 return RedirectToAction("Basket", "Home");
             }
 
+            int count = 0;
+
+            for (int i = 0; i < itemCount.Length; i++)
+            {
+                count += itemCount[i];
+                foreach (var basket in user.Buskets) 
+                {
+                    var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == basket.ProductId);
+                    if (product != null)
+                    {
+                        product.Count -= itemCount[i];
+                        _context.Products.Update(product);
+                    }
+                }
+            }
+            await _context.SaveChangesAsync();
+
+
+
             if (user.Money >= totalCost)
             {
                 user.Money -= totalCost;
+
                 var order = new Order
                 {
                     BusketId = user.Buskets.FirstOrDefault().Id,
                     Price = totalCost,
                     Date = DateTime.Now,
-                    Amount = itemCount,
+                    Amount = count,
                     Number = GenerateOrderNumber()
                 };
 
@@ -87,20 +107,6 @@ namespace PetShopWeb.Controllers
                     basket.Status = "Оплачено";
                 }
                 await _context.SaveChangesAsync();
-
-                foreach (var basket in user.Buskets)
-                {
-                    var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == basket.ProductId);
-                    if (product != null)
-                    {
-                        product.Count -= itemCount;
-                    }
-                    else
-                    {
-                        TempData["ErrorBusket"] = "Товар закончился";
-                        return RedirectToAction("Basket", "Home");
-                    }
-                }
 
                 await _context.SaveChangesAsync();
 
