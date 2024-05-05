@@ -50,7 +50,7 @@ namespace PetShopWeb.Controllers
         }
 
 
-        public async Task<IActionResult> CheckoutAsync(decimal totalCost, List<BusketModel> buskets)
+        public async Task<IActionResult> CheckoutAsync(decimal totalCost, int itemCount)
         {
             var userId = Convert.ToInt32(User.Identity.Name);
             var user = await _context.Buyers
@@ -75,7 +75,7 @@ namespace PetShopWeb.Controllers
                     BusketId = user.Buskets.FirstOrDefault().Id,
                     Price = totalCost,
                     Date = DateTime.Now,
-                    Amount = buskets.Count,
+                    Amount = itemCount,
                     Number = GenerateOrderNumber()
                 };
 
@@ -93,7 +93,7 @@ namespace PetShopWeb.Controllers
                     var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == basket.ProductId);
                     if (product != null)
                     {
-                        product.Count -= buskets.Count;
+                        product.Count -= itemCount;
                     }
                     else
                     {
@@ -132,28 +132,38 @@ namespace PetShopWeb.Controllers
         public async Task<IActionResult> BasketAsync()
         {
             var user = await _context.Buyers.FirstOrDefaultAsync(u => u.Id == Convert.ToInt32(User.Identity.Name));
-            var userBasket = await _context.Buyers
-                .Include(b => b.Buskets)
-                .ThenInclude(b => b.Product)
-                .FirstOrDefaultAsync(u => u.Id == user.Id);
 
             if (user == null)
             {
                 return NotFound();
             }
 
-            var basketModels = userBasket.Buskets.Where(b => b.Status != "Оплачено").Select(b => new BusketModel
+            var userBasket = await _context.Buyers
+                .Include(b => b.Buskets)
+                    .ThenInclude(b => b.Product)
+                .FirstOrDefaultAsync(u => u.Id == user.Id);
+
+            if (userBasket == null)
             {
-                Id = b.Id,
-                BuyerId = b.Id,
-                ProductId = b.Id,
-                Count = b.Count,
-                Product = b.Product,
-                
-            }).ToList();
+                return NotFound();
+            }
+
+            var basketModels = userBasket.Buskets
+                .Where(b => !string.Equals(b.Status.Trim(), "Оплачено", StringComparison.OrdinalIgnoreCase))
+                .Select(b => new BusketModel
+                {
+                    Id = b.Id,
+                    BuyerId = b.BuyerId,
+                    ProductId = b.ProductId,
+                    Count = b.Count,
+                    Product = b.Product
+                })
+                .ToList();
 
             return View(basketModels);
         }
+
+
         public async Task<IActionResult> AddToBasketAsync(int productId, int count)
         {
             var user = await _context.Buyers.FirstOrDefaultAsync(u => u.Id == Convert.ToInt32(User.Identity.Name));

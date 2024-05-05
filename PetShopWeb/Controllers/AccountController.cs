@@ -33,10 +33,18 @@ namespace PetShopWeb.Controllers
                 Money = user.Money
             };
 
+            var userBasket = await _context.Buyers
+            .Include(b => b.Buskets)
+            .ThenInclude(b => b.Orders) 
+            .FirstOrDefaultAsync(u => u.Id == user.Id);
 
-            var orders = _context.Orders.ToList();
-
-            ViewBag.Orders = orders;
+            if (userBasket != null)
+            {
+                var orders = userBasket.Buskets
+                    .SelectMany(b => b.Orders) 
+                    .ToList();
+                ViewBag.Orders = orders;
+            }
 
             return View(model);
         }
