@@ -17,19 +17,19 @@
             <div class="column">
                 <form asp-action="UpdateProfile" asp-controller="Account" method="post">
                     <div>
-                        <input type="text" name="Name" placeholder="Имя" value="@Model.Name">
+                    <input type="text" name="Name" placeholder="Имя" value="@Model.Name" maxlength="20" required>
                         <span class="text-danger">@Html.ValidationMessageFor(model => model.Name)</span>
                     </div>
                     <div>
-                        <input type="text" name="Surname" placeholder="Фамилия" value="@Model.Surname">
+                    <input type="text" name="Surname" placeholder="Фамилия" value="@Model.Surname" maxlength="20" required>
                         <span class="text-danger">@Html.ValidationMessageFor(model => model.Surname)</span>
                     </div>
                     <div>
-                        <input type="text" name="Patronymic" placeholder="Отчество" value="@Model.Patronymic">
+                    <input type="text" name="Patronymic" placeholder="Отчество" value="@Model.Patronymic" maxlength="20" required>
                         <span class="text-danger">@Html.ValidationMessageFor(model => model.Patronymic)</span>
                     </div>
                     <div>
-                        <input type="text" name="Phone" placeholder="Телефон" value="@Model.Phone">
+                    <input type="text" name="Phone" placeholder="Телефон" value="@Model.Phone" pattern="[0-9]{1,15}" required>
                         <span class="text-danger">@Html.ValidationMessageFor(model => model.Phone)</span>
                     </div>
                     <div>

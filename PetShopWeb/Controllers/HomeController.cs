@@ -62,7 +62,7 @@ namespace PetShopWeb.Controllers
                 return NotFound();
             }
 
-            if (user.Buskets == null || user.Buskets.Count == 0)
+            if (totalCost == 0)
             {
                 return RedirectToAction("Basket", "Home");
             }

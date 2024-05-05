@@ -20,16 +20,16 @@
         <ul class=register>
             <form method="post" asp-controller="Home" asp-action="LoginVerify">
                 <div class="input-box">
-                    <input type="email" name="Email" placeholder="Email">
+                    <input type="email" name="Email" placeholder="Email" maxlength="30" required>
                 </div>
                 <div class="input-box">
-                    <input type="password" name="Password" placeholder="Пароль">
+                    <input type="password" name="Password" placeholder="Пароль" minlength="4" maxlength="20" required>
                 </div>
                 <div class="buttons">
                     <button type="submit">Войти</button>
                 </div>
                 <div class="href">
-                    <a asp-controller="Home" asp-action="Registretion">Нет аккаунта?</a>
+                    <a asp-controller="Home" asp-action="Registration">Нет аккаунта?</a>
                 </div>
             </form>
         </ul>
