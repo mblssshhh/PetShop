@@ -9,8 +9,6 @@ using System.Security.Claims;
 using System.Text;
 using PetShopWeb.Data;
 using System.Security.Cryptography;
-using System.Net.Mail;
-using System.Text;
 
 namespace PetShopWeb.Controllers
 {
@@ -25,7 +23,34 @@ namespace PetShopWeb.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> CheckoutAsync(decimal totalCost)
+        public string GenerateOrderNumber()
+        {
+            string orderNumber = "#";
+            Random random = new Random();
+            bool isUnique = false;
+
+            while (!isUnique)
+            {
+                for (int i = 0; i < 6; i++)
+                {
+                    orderNumber += random.Next(10).ToString();
+                }
+
+                if (!_context.Orders.Any(o => o.Number == orderNumber))
+                {
+                    isUnique = true;
+                }
+                else
+                {
+                    orderNumber = "#";
+                }
+            }
+
+            return orderNumber;
+        }
+
+
+        public async Task<IActionResult> CheckoutAsync(decimal totalCost, int itemCount)
         {
             var userId = Convert.ToInt32(User.Identity.Name);
             var user = await _context.Buyers
@@ -37,7 +62,7 @@ namespace PetShopWeb.Controllers
                 return NotFound();
             }
 
-            if (user.Buskets == null || user.Buskets.Count == 0)
+            if (totalCost == 0)
             {
                 return RedirectToAction("Basket", "Home");
             }
@@ -50,7 +75,8 @@ namespace PetShopWeb.Controllers
                     BusketId = user.Buskets.FirstOrDefault().Id,
                     Price = totalCost,
                     Date = DateTime.Now,
-                    Amount = user.Buskets.Sum(b => b.Count)
+                    Amount = itemCount,
+                    Number = GenerateOrderNumber()
                 };
 
                 _context.Orders.Add(order);
@@ -62,13 +88,12 @@ namespace PetShopWeb.Controllers
                 }
                 await _context.SaveChangesAsync();
 
-                int sum = user.Buskets.Sum(b => b.Count);
                 foreach (var basket in user.Buskets)
                 {
                     var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == basket.ProductId);
                     if (product != null)
                     {
-                        product.Count -= sum;
+                        product.Count -= itemCount;
                     }
                     else
                     {
@@ -107,28 +132,38 @@ namespace PetShopWeb.Controllers
         public async Task<IActionResult> BasketAsync()
         {
             var user = await _context.Buyers.FirstOrDefaultAsync(u => u.Id == Convert.ToInt32(User.Identity.Name));
-            var userBasket = await _context.Buyers
-                .Include(b => b.Buskets)
-                .ThenInclude(b => b.Product)
-                .FirstOrDefaultAsync(u => u.Id == user.Id);
 
             if (user == null)
             {
                 return NotFound();
             }
 
-            var basketModels = userBasket.Buskets.Where(b => b.Status != "Оплачено").Select(b => new BusketModel
+            var userBasket = await _context.Buyers
+                .Include(b => b.Buskets)
+                    .ThenInclude(b => b.Product)
+                .FirstOrDefaultAsync(u => u.Id == user.Id);
+
+            if (userBasket == null)
             {
-                Id = b.Id,
-                BuyerId = b.Id,
-                ProductId = b.Id,
-                Count = b.Count,
-                Product = b.Product,
-                
-            }).ToList();
+                return NotFound();
+            }
+
+            var basketModels = userBasket.Buskets
+                .Where(b => !string.Equals(b.Status.Trim(), "Оплачено", StringComparison.OrdinalIgnoreCase))
+                .Select(b => new BusketModel
+                {
+                    Id = b.Id,
+                    BuyerId = b.BuyerId,
+                    ProductId = b.ProductId,
+                    Count = b.Count,
+                    Product = b.Product
+                })
+                .ToList();
 
             return View(basketModels);
         }
+
+
         public async Task<IActionResult> AddToBasketAsync(int productId, int count)
         {
             var user = await _context.Buyers.FirstOrDefaultAsync(u => u.Id == Convert.ToInt32(User.Identity.Name));
@@ -243,6 +278,7 @@ namespace PetShopWeb.Controllers
                     Patronymic = model.Patronymic,
                     Phone = model.Phone,
                     Email = model.Email,
+                    Money = 0,
                 };
 
                 user.Password = HashPassword(model.Password);

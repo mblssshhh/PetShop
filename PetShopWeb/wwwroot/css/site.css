@@ -86,8 +86,23 @@ body {
         .input-box input::placeholder {
             color: grey;
         }
-.tovars input ::placeholder{
+.tovars input::placeholder{
     color: grey;
+
+}
+
+.tovars input[type="number"]::-webkit-inner-spin-button,
+.tovars input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: number-input;
+    appearance: number-input;
+}
+
+
+.tovars input[type="number"] {
+    width: 50px;
+    padding: 0px 5px;
+    box-sizing: border-box;
+    text-align: center; 
 }
 
 
@@ -284,60 +299,40 @@ body {
     }
 
 /*account */
-.main div {
-    margin-top: 20px;
-    margin-left: 30px;
+.container{
+    padding-left: 5vw;
+   display:flex;
 }
 
-
-
-    .container .column2 {
-        margin-left: 40vw;
-    }
-
-.bonus-card {
-    width: 400px;
-    height: 250px;
-    background-color: #f1f1f1;
-    border-radius: 10px;
-    border-color: #373737;
-    padding: 20px;
-    margin: auto;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+.column{
+    flex: 1;
 }
 
-    .bonus-card .line {
-        margin-top: 20px;
-        margin-left: -20px;
-        width: 440px;
-        height: 60px;
-        background-color: #373737;
-    }
-
-.ball h2 {
-    margin-top: -20px;
-    margin-left: -40px;
-    color: #01848D;
-    font-size: 35px;
-    font-family: "Montserrat";
+.inf-order{
+    margin-right: 6vw;
+    text-align: center;
 }
 
-.bonus-card p {
-    margin-top: -15px;
-    margin-left: -64px;
+.order-table {
+    height: 200px; 
+    overflow-y: auto; 
 }
 
-.btwn {
-    display: flex;
+.table-container table {
+    width: 100%; 
+    border-collapse: collapse; 
 }
 
-    .btwn img {
-        transform: rotate(40deg);
-        width: 100px;
-        height: 90px;
-        margin-left: 60px;
-        margin-top: 70px;
-    }
+.table-container th, .table-container td {
+    border: 1px solid #ddd;
+    padding: 8px; 
+    text-align: left;
+}
+
+.column2 {
+    margin-right: 6vw;
+    float: right;
+  }
 /*corgi corgi corgi*/
 .corgi {
     margin-left: 60vw;

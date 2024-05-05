@@ -20,27 +20,27 @@
             </aside>
             <ul class="register">
                 <div class="input-box">
-                    <input type="text" name="Name" placeholder="Имя" />
+                    <input type="text" name="Name" placeholder="Имя" maxlength="20" pattern="[А-Яа-яЁё\s]+" title="Имя может содержать только буквы и пробелы" required />
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
                 <div class="input-box">
-                    <input type="text" name="Surname" placeholder="Фамилия" />
+                    <input type="text" name="Surname" placeholder="Фамилия" maxlength="20" pattern="[А-Яа-яЁё\s]+" title="Фамилия может содержать только буквы и пробелы" required />
                     <span asp-validation-for="Surname" class="text-danger"></span>
                 </div>
                 <div class="input-box">
-                    <input type="text" name="Patronymic" placeholder="Отчество" />
+                    <input type="text" name="Patronymic" placeholder="Отчество" maxlength="20" pattern="[А-Яа-яЁё\s]+" title="Отчество может содержать только буквы и пробелы" />
                     <span asp-validation-for="Patronymic" class="text-danger"></span>
                 </div>
                 <div class="input-box">
-                    <input type="text" name="Phone" placeholder="+7" />
+                    <input type="tel" name="Phone" placeholder="+7" maxlength="12" pattern="\+7[0-9]{10}" title="Введите номер телефона в формате +79991234567" required />
                     <span asp-validation-for="Phone" class="text-danger"></span>
                 </div>
                 <div class="input-box">
-                    <input type="text" name="Email" placeholder="Email" />
+                    <input type="email" name="Email" placeholder="Email" maxlength="30" required />
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
                 <div class="input-box">
-                    <input type="password" name="Password" placeholder="Пароль" />
+                    <input type="password" name="Password" placeholder="Пароль" minlength="4" maxlength="20" required />
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
                 <div class="buttons">

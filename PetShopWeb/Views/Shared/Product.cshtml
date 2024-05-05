@@ -1,0 +1,43 @@
+﻿@model PetShopWeb.Data.Entity.Product
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANI MALL</title>
+    <link rel="stylesheet" href="Catalog.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,900;1,900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <section class="main">
+        <p class="head"><a style="text-decoration: none; color: #838383;" href="@Url.Action("Catalog", "Home")">Каталог</a>- <a style="text-decoration: none;color: #838383;" href="@Url.Action("Catalog", "Home", new { categoryId = ViewBag.CategoryId })">@ViewBag.CategoryName</a> - @Model.Name</p>
+        <div class="tovar">
+            <img src="@Url.Content(Model.ImagePath)" alt="@Model.Name">
+            <div class="tovar_text">
+                <h2 class="name-T">@Model.Name</h2>
+                <p class="description">@Model.Description</p>
+                <p class="price">@Model.Price.ToString("C")</p>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <form method="post" asp-action="AddToBasket" asp-controller="Home">
+                        <input type="hidden" name="productId" value="@Model.Id" />
+                        <input type="hidden" name="count" value="1" />
+                        <button class="button type="submit">В корзину</button>
+                    </form>
+                }
+                else
+                {
+                    <form asp-action="Registretion" asp-controller="Home">
+                        <input type="hidden" name="productId" value="@Model.Id" />
+                        <input type="hidden" name="count" value="1" />
+                        <button class="button type="submit">В корзину</button>
+                    </form>
+                }
+            </div>
+        </div>
+        <div class="vanish"></div>
+    </section>
+    </body>

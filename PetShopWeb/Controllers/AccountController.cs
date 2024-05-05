@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PetShopWeb.Data;
+using PetShopWeb.Data.Entity;
 using PetShopWeb.Models;
+using System.Text;
 
 namespace PetShopWeb.Controllers
 {
@@ -30,6 +32,19 @@ namespace PetShopWeb.Controllers
                 Email = user.Email,
                 Money = user.Money
             };
+
+            var userBasket = await _context.Buyers
+            .Include(b => b.Buskets)
+            .ThenInclude(b => b.Orders) 
+            .FirstOrDefaultAsync(u => u.Id == user.Id);
+
+            if (userBasket != null)
+            {
+                var orders = userBasket.Buskets
+                    .SelectMany(b => b.Orders) 
+                    .ToList();
+                ViewBag.Orders = orders;
+            }
 
             return View(model);
         }

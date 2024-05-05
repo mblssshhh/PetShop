@@ -73,7 +73,10 @@
                                 <div class="price">@product.Price.ToString("C")</div>
                             </div>
                             <div class="btn-Ct">
-                                <button>Купить в 1 клик</button>
+                                <form asp-action="Product" asp-controller="Product" method="get">
+                                    <input type="hidden" name="productId" value="@product.Id" />
+                                    <button type="submit">Узнать больше</button>
+                                </form>
                                 @if (User.Identity.IsAuthenticated)
                                 {
                                     <form method="post" asp-action="AddToBasket" asp-controller="Home">
@@ -107,8 +110,26 @@
                                 <div class="price">@product.Price.ToString("C")</div>
                             </div>
                             <div class="btn-Ct">
-                                <button>Купить в 1 клик</button>
-                                <button>В корзину</button>
+                                <form asp-action="Product" asp-controller="Product" method="get">
+                                    <input type="hidden" name="productId" value="@product.Id" />
+                                    <button type="submit">Узнать больше</button>
+                                </form>
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <form method="post" asp-action="AddToBasket" asp-controller="Home">
+                                        <input type="hidden" name="productId" value="@product.Id" />
+                                        <input type="hidden" name="count" value="1" />
+                                        <button type="submit">В корзину</button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <form asp-action="Registretion" asp-controller="Home">
+                                        <input type="hidden" name="productId" value="@product.Id" />
+                                        <input type="hidden" name="count" value="1" />
+                                        <button type="submit">В корзину</button>
+                                    </form>
+                                }
                             </div>
                         </div>
                     </div>
