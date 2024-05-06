@@ -50,7 +50,7 @@ namespace PetShopWeb.Controllers
         }
 
 
-        public async Task<IActionResult> CheckoutAsync(decimal totalCost, int[] itemCount)
+        public async Task<IActionResult> CheckoutAsync(decimal totalCost, int[] itemCounts)
         {
             var userId = Convert.ToInt32(User.Identity.Name);
             var user = await _context.Buyers
@@ -69,15 +69,15 @@ namespace PetShopWeb.Controllers
 
             int count = 0;
 
-            for (int i = 0; i < itemCount.Length; i++)
+            for (int i = 0; i < itemCounts.Length; i++)
             {
-                count += itemCount[i];
+                count += itemCounts[i];
                 foreach (var basket in user.Buskets) 
                 {
                     var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == basket.ProductId);
                     if (product != null)
                     {
-                        product.Count -= itemCount[i];
+                        product.Count -= itemCounts[i];
                         _context.Products.Update(product);
                     }
                 }
@@ -106,8 +106,6 @@ namespace PetShopWeb.Controllers
                 {
                     basket.Status = "Оплачено";
                 }
-                await _context.SaveChangesAsync();
-
                 await _context.SaveChangesAsync();
 
                 TempData["Busket"] = "Заказ успешно создан";

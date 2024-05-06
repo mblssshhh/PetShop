@@ -155,7 +155,7 @@ button:last-child:hover{
     border-color: #ff6a00;
 }
 .vanish {
-    height: 400px;
+    height: 150px;
 }
 /*tovar tovar */
 .head {
@@ -219,7 +219,7 @@ button:last-child:hover{
     font-weight: bold;
 }
 
-    .button:hover {
+    .btn-Ct:hover {
         background-color: #f8a202;
         border: #009099;
     }

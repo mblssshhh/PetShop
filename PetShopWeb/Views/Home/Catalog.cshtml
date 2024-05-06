@@ -97,43 +97,6 @@
                         </div>
                     </div>
                 }
-                @foreach (var product in Model)
-                {
-                    <div class="card">
-                        <img src="@Url.Content(product.ImagePath)" alt="@product.Name" />
-                        <div class="content">
-                            <div class="row">
-                                <div class="details">
-                                    <span>@product.Name</span>
-                                    <p>@product.Description</p>
-                                </div>
-                                <div class="price">@product.Price.ToString("C")</div>
-                            </div>
-                            <div class="btn-Ct">
-                                <form asp-action="Product" asp-controller="Product" method="get">
-                                    <input type="hidden" name="productId" value="@product.Id" />
-                                    <button type="submit">Узнать больше</button>
-                                </form>
-                                @if (User.Identity.IsAuthenticated)
-                                {
-                                    <form method="post" asp-action="AddToBasket" asp-controller="Home">
-                                        <input type="hidden" name="productId" value="@product.Id" />
-                                        <input type="hidden" name="count" value="1" />
-                                        <button type="submit">В корзину</button>
-                                    </form>
-                                }
-                                else
-                                {
-                                    <form asp-action="Registretion" asp-controller="Home">
-                                        <input type="hidden" name="productId" value="@product.Id" />
-                                        <input type="hidden" name="count" value="1" />
-                                        <button type="submit">В корзину</button>
-                                    </form>
-                                }
-                            </div>
-                        </div>
-                    </div>
-                }
              </div>
             
             

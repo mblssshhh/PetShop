@@ -39,23 +39,24 @@
                 @TempData["ErrorBusket"]
             </div>
         }
-        <form method="post" asp-action="Checkout" asp-controller="Home">
         @if (Model != null && Model.Count > 0)
         {
             <div class="tovars">
-                <table>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td><img class="icon-b" src="@Url.Content(item.Product.ImagePath)" alt="@item.Product.Name"></td>
-                            <td><span>@item.Product.Name</span></td>
-                            <td><span>@item.Product.Price.ToString("C")</span></td>
-                            <td><input placeholder="1" type="number" name="itemCount" value="@item.Count" min="1" max="@item.Product.Count" data-item-id="@item.Id" oninput="updateTotal(this)" /></td>
-                            <td><span id="subtotal-@item.Id">@item.Product.Price руб.</span></td>
-                            <td><a class="plain-link" href="@Url.Action("DeleteFromBasket", "Home", new { itemId = item.Id })"><button>X</button></a></td>
-                        </tr>
-                    }
-                </table>
+                @foreach (var item in Model)
+                {
+                    <form method="post" action="@Url.Action("DeleteFromBasket", "Home", new { itemId = item.Id })">
+                        <table>
+                            <tr>
+                                <td><img class="icon-b" src="@Url.Content(item.Product.ImagePath)" alt="@item.Product.Name"></td>
+                                <td><span>@item.Product.Name</span></td>
+                                <td><span>@item.Product.Price.ToString("C")</span></td>
+                                <td><input placeholder="1" type="number" name="itemCount" value="@item.Count" min="1" max="@item.Product.Count" data-item-id="@item.Id" oninput="updateTotal(this)" /></td>
+                                <td><span id="subtotal-@item.Id">@item.Product.Price руб.</span></td>
+                                <td><button type="submit">X</button></td>
+                            </tr>
+                        </table>
+                    </form>
+                }
                 <hr>
             </div>
         }
@@ -64,12 +65,14 @@
             <p style="align-content: center">Корзина пуста.</p>
         }
         <div class="btn-oplata">
-
+            <form method="post" asp-action="Checkout" asp-controller="Home">
                 <input type="hidden" id="totalCost" name="totalCost" value="@Model.Sum(item => item.Product.Price * item.Count)" />
                 <span id="totalAmount">Общая сумма: @Model.Sum(item => item.Product.Price * item.Count) руб.</span>
+                <input type="hidden" id="itemCounts" name="itemCounts" />
                 <button type="submit">Оформить заказ</button>
             </form>
         </div>
+
 
         <script>
             function updateTotal(input) {

@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" context="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> ANI MALL</title>
-    <link rel="stylesheet" href="acs.css">
+    <link rel="stylesheet" href="~/css/acs.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,900;1,900&display=swap" rel="stylesheet">
@@ -29,7 +29,7 @@
                         <span class="text-danger">@Html.ValidationMessageFor(model => model.Patronymic)</span>
                     </div>
                     <div>
-                    <input type="text" name="Phone" placeholder="Телефон" value="@Model.Phone" pattern="[0-9]{1,15}" required>
+                    <input type="text" name="Phone" placeholder="Телефон" value="@Model.Phone" readonly>
                         <span class="text-danger">@Html.ValidationMessageFor(model => model.Phone)</span>
                     </div>
                     <div>
@@ -54,7 +54,6 @@
                         <tr>
                             <th>Номер заказа</th>
                             <th>Стоимость</th>
-                            <th>Количество товаров</th>
                             <th>Дата заказа</th>
                         </tr>
                         @foreach (var order in ViewBag.Orders)
@@ -62,7 +61,6 @@
                             <tr>
                                 <td>@order.Number</td>
                                 <td>@order.Price</td>
-                                <td>@order.Amount</td>
                                 <td>@order.Date</td>
                             </tr>
                         }
@@ -79,8 +77,7 @@
                 <div>Текущая сумма: @Model.Money</div>
             </div>
         </div>
-
-
-    </div>
+      <div>
+          <div class="vanish"></div>
 </body>
 </html>
