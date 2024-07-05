@@ -10,3 +10,11 @@ Product search and filtering
 Shopping cart management
 Order processing
 User profile management
+
+Technologies Used
+C#
+ASP.NET Core
+Entity Framework Core
+SQL Server
+HTML/CSS
+JavaScript
